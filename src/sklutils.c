@@ -129,9 +129,39 @@ void* dict_search(Dict dict, void* key, usize klen){
     return NULL;
 }
 
+// -*-
 void* dict_insert(Dict dict, void* key, usize klen, void* val, usize vlen){
-    //! @todo
-    return NULL;
+    int idx = dict_hash(key, klen, dict->size);
+    Entry entry = dict->bucket[idx];
+    Entry last = NULL;
+
+    // search for an existing key
+    while(entry != NULL){
+        if(entry->klen==klen){
+            if(memcmp(key, entry->key, klen)==0){
+                entry->val = val;
+                entry->vlen = vlen;
+                return entry;
+            }
+        }
+        last = entry;
+        entry = entry->next;
+    }
+
+    Entry node = (Entry)skl_alloc(sizeof(*node));
+    node->key = key;
+    node->val = val;
+    node->klen = klen;
+    node->vlen = vlen;
+    node->next = NULL;
+
+    if(last != NULL){
+        last->next = node;
+    }else{
+        dict->bucket[idx] = node;
+    }
+    dict->len++;
+    return node->val;
 }
 
 void dict_remove(Dict dict, void* key, usize klen){
