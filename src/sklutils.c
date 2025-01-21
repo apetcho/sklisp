@@ -186,8 +186,16 @@ void dict_remove(Dict dict, void* key, usize klen){
 }
 
 Dict dict_rehash(Dict dict, usize newSize){
-    //! @todo
-    return NULL;
+    Dict table = new_dict(newSize, dict->hashfn);
+    if(table==NULL){ return NULL; }
+    struct dictIterator iterator;
+    dict_init_iterator(dict, &iterator);
+    assert(table != NULL);
+    for(; iterator.key != NULL; dict_iterator_next(&iterator)){
+        dict_insert(table, iterator.key, iterator.klen, iterator.val, iterator.vlen);
+    }
+    dict_destroy(dict);
+    return table;
 }
 
 void dict_destroy(Dict dict){
