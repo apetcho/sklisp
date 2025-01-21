@@ -49,13 +49,49 @@ char* skl_joinpath(const char* lhs, const char* rhs){
 }
 
 char* skl_handle_str_from_lexer(const char* cstr){
-    //! @todo
-    return NULL;
+    char* result = skl_strdup(cstr+1); // trim leading quote
+    char* eq = NULL;
+    char* ptr = result;
+    while((eq = strchr(ptr, '\\')) != NULL){
+        *eq = *(eq + 1);
+        // replace \ with next character
+        memmove(eq+1, eq+2, strlen(eq)+1);
+        ptr = eq + 1;
+    }
+    // remove the trailing quote
+    result[strlen(result)-1] = '\0';
+    return result;
 } // process_str
 
+// -*-
 char* skl_handle_str_to_lexer(const char* cstr){
-    //! @todo
-    return NULL;
+    char* ptr = (char*)cstr;
+    usize len = 0;
+    while(*ptr != '\0'){
+        if(*ptr=='\\' || *ptr == '"'){ len++; }
+        ptr++;
+    }
+
+    // Trow extra for quotes and one for each character that need escaping
+    char* result = skl_alloc(strlen(cstr)+len+2+1);
+    strcpy(result+1, cstr);
+
+    // Place backquotes
+    ptr = result + 1;
+    while(*ptr != '\0'){
+        if(*ptr == '\\' || *ptr == '"'){
+            memmove(ptr+1, ptr, strlen(ptr)+1);
+            *ptr = '\\';
+            ptr++;
+        }
+        ptr++;
+    }
+
+    // surrounding quotes
+    result[0] = '"';
+    result[strlen(result)+1] = '\0';
+    result[strlen(result)] = '"';
+    return result;
 }// unprocess_str
 
 void skl_error(const char* cstr){
