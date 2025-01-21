@@ -71,10 +71,54 @@ Self skl_new_special(Fun special){
     return self;
 }
 
+// -*-
+static void _delete_channel(Self self){
+    Channel channel = SKL_VALUE_DATA(self);
+    delete_stream(channel->stream);
+    close(channel->in);
+    close(channel->out);
+}
 // -
 void skl_delete(Self self){
-    //! @todo
-    return;
+    if(SKL_IS_SYMBOL(self)){ return; }
+    self->rc--;
+    if(self->rc > 0){ return; }
+
+    mpz_t* inum = NULL;
+    mpf_t* fnum = NULL;
+    switch(self->kind){
+    case SYMBOL:
+        return;
+    case FLOAT:
+        fnum = SKL_FLOAT_PTR(self);
+        mpf_clear(*fnum);
+        skl_free(SKL_VALUE_DATA(self));
+        break;
+    case INTEGER:
+        inum = SKL_INTEGER_PTR(self);
+        mpz_clear(*inum);
+        skl_free(SKL_VALUE_DATA(self));
+        break;
+    case STRING:
+        SKL_TRAIT_DEALLOC(sklisp.strTrait);
+        break;
+    case CONS:
+        skl_delete(SKL_CAR(self));
+        skl_delete(SKL_CDR(self));
+        SKL_TRAIT_DEALLOC(sklisp.consTrait);
+        break;
+    case VEC:
+        SKL_TRAIT_DEALLOC(sklisp.vecTrait);
+        break;
+    case CHANNEL:
+        _delete_channel(self);
+        skl_free(SKL_VALUE_DATA(self));
+        break;
+    case BUILTIN:
+    case SPECIAL:
+        break;
+    }
+    mempool_free(sklisp.mempool, (void*)self);
 }
 
 // -
