@@ -15,9 +15,15 @@ void* skl_alloc(usize size){
     return ptr;
 }
 
-void* skl_realloc(void* arg, usize size){
-    //! @todo
-    return NULL;
+void* skl_realloc(void* ptr, usize size){
+    void* mem = realloc(ptr, size);
+    if(mem==NULL){
+        char msg[512] = {0};
+        snprintf(msg, sizeof(msg)-1, "Error: out of memory: %s\n", strerror(errno));
+        fputs(msg, stderr);
+        exit(EXIT_FAILURE);
+    }
+    return mem;
 }
 
 void skl_free(void* arg){
