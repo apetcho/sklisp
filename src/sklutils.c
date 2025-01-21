@@ -95,7 +95,7 @@ char* skl_handle_str_to_lexer(const char* cstr){
 }// unprocess_str
 
 void skl_error(const char* cstr){
-    //! @todo
+    fputs(cstr, stderr);
 }
 
 // -*-
