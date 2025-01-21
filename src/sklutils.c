@@ -33,9 +33,11 @@ void skl_free(void* ptr){
     ptr = NULL;
 }
 
+// -*-
 char* skl_strdup(const char* str){
-    //! @todo
-    return NULL;
+    char* result = skl_alloc(strlen(str)+1);
+    strcpy(result, str);
+    return result;
 }
 
 char* skl_joinpath(const char* lhs, const char* rhs){
