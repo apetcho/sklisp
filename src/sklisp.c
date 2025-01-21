@@ -66,8 +66,9 @@ Self skl_new_fun(Fun fun){
 
 // -
 Self skl_new_special(Fun special){
-    //! @todo
-    return 0;
+    Self self = skl_new(SPECIAL);
+    SKL_VALUE_FUN(self) = special;
+    return self;
 }
 
 // -
