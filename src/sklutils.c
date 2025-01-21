@@ -261,6 +261,6 @@ void dict_iterator_next(DictIterator iterator){
 }
 
 int dict_hash(void* key, usize klen, usize len){
-    //! @todo
-    return 0;
+    u32 hval = skl_hash(key, klen);
+    return (hval % len);
 }
