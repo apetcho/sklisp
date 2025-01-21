@@ -222,7 +222,42 @@ void dict_init_iterator(Dict dict, DictIterator iterator){
 }
 
 void dict_iterator_next(DictIterator iterator){
-    //! @todo
+    Dict dict = iterator->internal.dict;
+    int idx = iterator->internal.index;
+    if(iterator->internal.entry==NULL || iterator->internal.entry->next==NULL){
+        idx++;
+    }else{
+        iterator->internal.entry = iterator->internal.entry->next;
+        iterator->key = iterator->internal.entry->key;
+        iterator->val = iterator->internal.entry->val;
+        iterator->klen = iterator->internal.entry->klen;
+        iterator->vlen = iterator->internal.entry->vlen;
+        return;
+    }
+
+    // find next node
+    while(dict->bucket[idx]==NULL && idx < (int)dict->size){
+        idx++;
+    }
+
+    if(idx >= (int)dict->size){
+        // end of hashtable
+        iterator->internal.entry = NULL;
+        iterator->internal.index = (int)dict->size;
+        iterator->key = NULL;
+        iterator->val = NULL;
+        iterator->klen = 0;
+        iterator->vlen = 0;
+        return;
+    }
+
+    // point to the next item in the hashtable
+    iterator->internal.entry = dict->bucket[idx];
+    iterator->internal.index = idx;
+    iterator->key = iterator->internal.entry->key;
+    iterator->val = iterator->internal.entry->val;
+    iterator->klen = iterator->internal.entry->klen;
+    iterator->vlen = iterator->internal.entry->vlen;
 }
 
 int dict_hash(void* key, usize klen, usize len){
