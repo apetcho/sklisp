@@ -215,7 +215,10 @@ void dict_destroy(Dict dict){
 }
 
 void dict_init_iterator(Dict dict, DictIterator iterator){
-    //! @todo
+    iterator->internal.dict = dict;
+    iterator->internal.entry = NULL;
+    iterator->internal.index = -1;
+    dict_iterator_next(iterator);
 }
 
 void dict_iterator_next(DictIterator iterator){
