@@ -284,17 +284,18 @@ int require(char* libname);
 // -*-                     SKLISP::OBJECT & Co.                     -*-
 // -*----------------------------------------------------------------*-
 // -*- mem.h -*-
-typedef struct{
+typedef struct mempool* Mempool;
+struct mempool {
     usize itemsize;
     void **stack;
     void **base;
     void (*discard)(void*);
-} Mempool;
+};
 
-Mempool* new_mempool(usize itemsize, void (*discard)(void*));
-void delete_mempool(Mempool* mempool);
-void* mempool_alloc(Mempool* mempool);
-void mempool_free(Mempool* mempool, void* item);
+Mempool new_mempool(usize itemsize, void (*discard)(void*));
+void delete_mempool(Mempool mempool);
+void* mempool_alloc(Mempool mempool);
+void mempool_free(Mempool mempool, void* item);
 
 
 // -*------------*-
@@ -335,14 +336,15 @@ struct object{
     Value value;
 };
 
-// -
-u32 skl_hash(void* obj, usize size);
+
 // -
 Self skl_new(TypeKind kind);
-void skl_delete(void*);
+void skl_delete(Self self);
 Self skl_new_cons(Self car, Self cdr);
 Self skl_new_fun(Fun fun);
 Self skl_new_special(Fun special);
+// -
+u32 skl_hash(void* obj, usize size);
 
 // -*-
 void* sk_trait_alloc(usize);
@@ -503,8 +505,6 @@ Self skl_bind_args(Self vars, Self argv);           // i.e assign_args
 Self skl_unbind_args(Self vars);                    // i.e unassign_args
 Self skl_apply(Self fun, Self argv);
 
-
-
 /*
 void sklisp_init(void* app); <sklisp_init()>                     // i.e wisp_init
 :{
@@ -545,13 +545,14 @@ struct SKLisp{
     Trait* funTrait;
     Trait* sformTrait;
     Trait* channelTrait;
+    Trait* vecTrait;
     // -*------------*-
     // -*- mempools -*-
     // -*------------*-
-    Mempool* mempool;       // object
-    Mempool* conspool;
-    Mempool* strpool;
-    Mempool* vecpool;
+    Mempool mempool;       // object
+    Mempool conspool;
+    Mempool strpool;
+    Mempool vecpool;
     // -*----------------*-
     // -*- symbol table -*-
     // -*----------------*-
@@ -593,13 +594,14 @@ struct SKLisp{
     Self IndexError;
 };
 
+// -*-
 extern struct SKLisp sklisp;
 
-void skl_init_math(struct SKLisp* app);
-void skl_init_builtins(struct SKLisp* app);
+void skl_init_math(void);
+void skl_init_builtins(void);
 // void skl_init_interpreter(struct SKLisp* app);          // :: eval_init()
-void skl_init(struct SKLisp* app);                      // i.e eval_init
-void sklisp_initialize(void* app);
-void sklisp_finalize(void* app);
+void skl_init(void);                      // i.e eval_init
+void sklisp_initialize(void);
+void sklisp_finalize(void);
 
 #endif

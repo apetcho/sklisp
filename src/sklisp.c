@@ -1,0 +1,130 @@
+#include "sklisp.h"
+
+// -*--------------------------*-
+// -*- Object && Fun && SForm -*-
+// -*--------------------------*-
+// -
+static Symbol _new_symbol(void){
+    Symbol sym = skl_alloc(sizeof(*sym));
+    sym->props = 0;
+    sym->len = 8;
+    void *node = skl_alloc(sizeof(Self)*sym->len);
+    sym->values = node;
+    sym->stack = node;
+    return sym;
+}
+
+// -
+Self skl_new(TypeKind kind){
+    Self self = (Self)mempool_alloc(sklisp.mempool);
+    self->kind = kind;
+    self->rc++;
+    switch(kind){
+    case INTEGER:
+        SKL_VALUE_DATA(self) = skl_alloc(sizeof(mpz_t));
+        break;
+    case FLOAT:
+        SKL_VALUE_DATA(self) = skl_alloc(sizeof(mpf_t));
+        break;
+    case SYMBOL:
+        SKL_VALUE_DATA(self) = _new_symbol();
+        break;
+    case STRING:
+        SKL_VALUE_DATA(self) = SKL_TRAIT_ALLOC(sklisp.strTrait);
+        break;
+    case CONS:
+        SKL_VALUE_DATA(self) = SKL_TRAIT_ALLOC(sklisp.consTrait);
+        break;
+    case VEC:
+        SKL_VALUE_DATA(self) = SKL_TRAIT_ALLOC(sklisp.vecTrait);
+        break;
+    case CHANNEL:
+        SKL_VALUE_DATA(self) = skl_alloc(sizeof(struct channel));
+        break;
+    case BUILTIN:
+    case SPECIAL:
+        break;
+    }
+    return self;
+}
+
+// -
+void skl_delete(Self self){
+    //! @todo
+    return;
+}
+
+// -
+Self skl_new_cons(Self car, Self cdr){
+    //! @todo
+    return 0;
+}
+
+// -
+Self skl_new_fun(Fun fun){
+    //! @todo
+    return 0;
+}
+
+// -
+Self skl_new_special(Fun special){
+    //! @todo
+    return 0;
+}
+
+// -
+u32 skl_hash(void* obj, usize size){
+    //! @todo
+    return 0;
+}
+
+// -*- Numbers -*-
+// -*- Cons -*-
+// -*- String -*-
+// -*- Symbol -*-
+// -*- Vec -*-
+// -*- Channel -*-
+
+
+// -*----------------------------------------------------------------*-
+// -*- Trait Initializers                                           -*-
+// -*----------------------------------------------------------------*-
+/*
+static Trait _intTrait;
+static Trait _floatTrait;
+static Trait _stringTrait;
+static Trait _symbolTrait;
+static Trait _consTrait;
+static Trait _funTrait;
+static Trait _sformTrait;
+static Trait _vecTrait;
+static Trait _channelTrait;
+*/
+
+// -*----------------------------------------------------------------*-
+// -*- Mempool initializers                                         -*-
+// -*----------------------------------------------------------------*-
+static void _object_mempool_discard(void* obj){
+    Self self = (Self)obj;
+    self->kind = SYMBOL;
+    self->rc = 0;
+    SKL_VALUE_DATA(self) = sklisp.Nil;
+    SKL_VALUE_FUN(self) = NULL;
+}
+
+/*
+static Mempool _mempool;
+static Mempool _conspool;
+static Mempool _strpool;
+static Mempool _vecpool;
+*/
+
+// -*-
+void sklisp_initialize(void){
+    sklisp.mempool = new_mempool(sizeof(struct object), _object_mempool_discard);
+    //! @todo
+}
+
+/*
+void sklisp_finalize(struct SKLisp* app);
+*/
