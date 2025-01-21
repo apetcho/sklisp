@@ -165,7 +165,24 @@ void* dict_insert(Dict dict, void* key, usize klen, void* val, usize vlen){
 }
 
 void dict_remove(Dict dict, void* key, usize klen){
-    //! @todo
+    Entry last;
+    Entry entry;
+    int idx = dict_hash(key, klen, dict->size);
+    entry = dict->bucket[idx];
+    last = NULL;
+
+    while(entry != NULL){
+        if(entry->klen==klen){
+            if(memcmp(key, entry->key, klen)==0){
+                if(last != NULL){ last->next = entry->next; }
+                else{ dict->bucket[idx] = entry->next; }
+                skl_free(entry);
+                break;
+            }
+        }
+        last = entry;
+        entry = entry->next;
+    }
 }
 
 Dict dict_rehash(Dict dict, usize newSize){
