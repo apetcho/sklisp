@@ -100,8 +100,16 @@ void skl_error(const char* cstr){
 
 // -*-
 Dict new_dict(usize size, int (*hash)(void*, usize, usize)){
-    //! @todo
-    return NULL;
+    Dict dict = (Dict)skl_alloc(sizeof(*dict));
+    dict->bucket = (Entry*)skl_alloc(sizeof(Entry)*size);
+    dict->len = 0;
+    dict->size = size;
+    for(usize i=0; i < size; i++){
+        dict->bucket[i] = NULL;
+    }
+    if(hash==NULL){ dict->hashfn = dict_hash;}
+    else{ dict->hashfn = hash; }
+    return dict;
 }
 
 void* dict_search(Dict dict, void* key, usize klen){
@@ -135,7 +143,7 @@ void dict_iterator_next(DictIterator iterator){
     //! @todo
 }
 
-u32 dict_hash(void* key, usize klen, usize len){
+int dict_hash(void* key, usize klen, usize len){
     //! @todo
     return 0;
 }

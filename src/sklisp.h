@@ -223,7 +223,7 @@ Dict dict_rehash(Dict dict, usize newSize);
 void dict_destroy(Dict dict);
 void dict_init_iterator(Dict dict, DictIterator iterator);
 void dict_iterator_next(DictIterator iterator);
-u32 dict_hash(void* key, usize klen, usize len);
+int dict_hash(void* key, usize klen, usize len);
 
 // -*----------------------------------------------------------------*-
 // -*-                       SKLISP::SCANNER                        -*-
