@@ -199,7 +199,19 @@ Dict dict_rehash(Dict dict, usize newSize){
 }
 
 void dict_destroy(Dict dict){
-    //! @todo
+    Entry entry;
+    Entry last;
+    for(int i=0; i < (int)dict->size; i++){
+        entry = dict->bucket[i];
+        while(entry != NULL){
+            // destroy node
+            last = entry;
+            entry = entry->next;
+            skl_free(last);
+        }
+    }
+    skl_free(dict->bucket);
+    skl_free(dict);
 }
 
 void dict_init_iterator(Dict dict, DictIterator iterator){
