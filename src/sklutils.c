@@ -26,8 +26,11 @@ void* skl_realloc(void* ptr, usize size){
     return mem;
 }
 
-void skl_free(void* arg){
-    //! @todo
+void skl_free(void* ptr){
+    if(ptr){
+        free(ptr);
+    }
+    ptr = NULL;
 }
 
 char* skl_strdup(const char* str){
