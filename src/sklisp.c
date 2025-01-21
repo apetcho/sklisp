@@ -59,8 +59,9 @@ Self skl_new_cons(Self car, Self cdr){
 
 // -
 Self skl_new_fun(Fun fun){
-    //! @todo
-    return 0;
+    Self self = skl_new(BUILTIN);
+    SKL_VALUE_FUN(self) = fun;
+    return self;
 }
 
 // -
