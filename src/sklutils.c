@@ -41,8 +41,11 @@ char* skl_strdup(const char* str){
 }
 
 char* skl_joinpath(const char* lhs, const char* rhs){
-    //! @todo
-    return NULL;
+    char* result = skl_alloc(strlen(lhs)+strlen(rhs)+2);
+    strcpy(result, lhs);
+    result[strlen(lhs)] = '/';
+    strcpy(result+strlen(lhs)+1, rhs);
+    return result;
 }
 
 char* skl_handle_str_from_lexer(const char* cstr){
