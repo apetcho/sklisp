@@ -1,9 +1,18 @@
 #include "sklisp.h"
+#include<errno.h>
+#include<string.h>
+#include<assert.h>
 
 // -*-
 void* skl_alloc(usize size){
-    //! @todo
-    return NULL;
+    void* ptr = calloc(1, size);
+    if(ptr==NULL){
+        char msg[512] = {0};
+        snprintf(msg, sizeof(msg)-1, "Error: out of memory: %s\n", strerror(errno));
+        fputs(msg, stderr);
+        exit(EXIT_FAILURE);
+    }
+    return ptr;
 }
 
 void* skl_realloc(void* arg, usize size){
