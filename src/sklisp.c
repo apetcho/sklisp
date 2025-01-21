@@ -48,16 +48,13 @@ Self skl_new(TypeKind kind){
     return self;
 }
 
-// -
-void skl_delete(Self self){
-    //! @todo
-    return;
-}
 
 // -
 Self skl_new_cons(Self car, Self cdr){
-    //! @todo
-    return 0;
+    Self self = skl_new(CONS);
+    SKL_CAR(self) = car;
+    SKL_CDR(self) = cdr;
+    return self;
 }
 
 // -
@@ -70,6 +67,12 @@ Self skl_new_fun(Fun fun){
 Self skl_new_special(Fun special){
     //! @todo
     return 0;
+}
+
+// -
+void skl_delete(Self self){
+    //! @todo
+    return;
 }
 
 // -
