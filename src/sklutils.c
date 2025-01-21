@@ -112,8 +112,20 @@ Dict new_dict(usize size, int (*hash)(void*, usize, usize)){
     return dict;
 }
 
+// -*-
 void* dict_search(Dict dict, void* key, usize klen){
-    //! @todo
+    int idx = dict_hash(key, klen, dict->size);
+    if(dict->bucket[idx]==NULL){ return NULL; }
+
+    Entry entry = dict->bucket[idx];
+    while(entry != NULL){
+        if(entry->klen==klen){
+            if(memcmp(key, entry->key, klen)==0){
+                return entry->val;
+            }
+        }
+        entry = entry->next;
+    }
     return NULL;
 }
 
