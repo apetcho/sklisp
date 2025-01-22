@@ -392,6 +392,11 @@ void _delete_cons(Cons self){
     mempool_free(sklisp.conspool, (void*)self);
 }
 
+u32 _hash_cons(void* obj){
+    Self self = (Self)obj;
+    return sklisp_hash(SKL_CAR(self)) ^ sklisp_hash(SKL_CDR(self));
+}
+
 /*
 static Trait _stringTrait;
 static Trait _symbolTrait;
