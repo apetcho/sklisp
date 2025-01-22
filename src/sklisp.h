@@ -162,7 +162,6 @@ typedef Self (*Fun)(Self);
 #define SKL_TRAIT_ALLOC(trait)      ((trait)->alloc)
 #define SKL_TRAIT_DEALLOC(trait)    ((trait)->dealloc)
 #define SKL_TRAIT_PRINT(trait)      ((trait)->print)
-#define SKL_TRAIT_PRINTLN(trait)    ((trait)->println)
 #define SKL_TRAIT_HASH(trait)       ((trait)->hash)
 
 
@@ -318,9 +317,7 @@ typedef struct {
     void* (*alloc)(usize);      // *_create
     void (*dealloc)(void*);     // *_destroy
     void (*print)(void*);
-    void (*println)(void*);
     u32 (*hash)(void*);
-    Self (*create)(TypeKind kind, va_list);
 } Trait;
 
 // -*-

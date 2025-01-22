@@ -262,7 +262,8 @@ double skl_to_float(Self self){
 // -*----------------------------------------------------------------*-
 // -*- Trait Initializers                                           -*-
 // -*----------------------------------------------------------------*-
-static u32 _hash_integer(Self self){
+static u32 _hash_integer(void* obj){
+    Self self = (Self)obj;
     char* str = mpz_get_str(NULL, 16, SKL_DEREF_INTEGER(self));
     u32 result = skl_hash(str, strlen(str));
     skl_free(str);
@@ -270,7 +271,8 @@ static u32 _hash_integer(Self self){
 }
 
 // -*-
-static u32 _hash_float(Self self){
+static u32 _hash_float(void* obj){
+    Self self = (Self)obj;
     char* str = mpf_get_str(NULL, NULL, 16, 0, SKL_DEREF_FLOAT(self));
     u32 result = skl_hash(str, strlen(str));
     skl_free(str);
@@ -290,8 +292,6 @@ static void _print_float(void* obj){
 }
 
 /*
-static Trait _intTrait;
-static Trait _floatTrait;
 static Trait _stringTrait;
 static Trait _symbolTrait;
 static Trait _consTrait;
@@ -300,6 +300,21 @@ static Trait _sformTrait;
 static Trait _vecTrait;
 static Trait _channelTrait;
 */
+
+static Trait _intTrait = {
+    .alloc = NULL,
+    .dealloc = NULL,
+    .print = _print_integer,
+    .hash = _hash_integer,
+};
+
+static Trait _floatTrait = {
+    .alloc = NULL,
+    .dealloc = NULL,
+    .print = _print_float,
+    .hash = _hash_float,
+};
+
 
 // -*----------------------------------------------------------------*-
 // -*- Mempool initializers                                         -*-
