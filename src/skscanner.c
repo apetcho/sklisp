@@ -652,8 +652,131 @@ static Self _stream_parse_atom(Stream* stream){
 
 // -*-
 Self stream_read_sexp(Stream* stream){
-    //! @todo
-    return NULL;
+    // check for a shebang
+    if(stream->shebang == -1){
+        char str[2];
+        str[0] = _stream_getc(stream);
+        str[1] = _stream_getc(stream);
+        if(str[0]=='#' && str[1]=='!'){
+            // looks like a shebang line
+            stream->shebang = 1;
+            _stream_skip_line(stream);
+        }else{
+            stream->shebang = 0;
+            _stream_putc(stream, str[0]);
+            _stream_putc(stream, str[1]);
+        }
+    }
+
+    stream->done = 0;
+    stream->error = 0;
+    _stream_push(stream);
+    _stream_print_ps1(stream);
+    int nc = 0;
+    while(!stream->eof && !stream->error && (_stream_list_is_empty(stream) || _stream_stack_height(stream)>1)){
+        int c = _stream_getc(stream);
+        switch(c){
+        case EOF:
+            stream->eof = 1;
+            break;
+        case ';': // comments
+            _stream_skip_line(stream);
+            break;
+        case '.': // dotted pair
+            nc = _stream_getc(stream);
+            if(strchr(" \t\r\n()", nc) != NULL){
+                if(stream->state->dotpairMode > 0){
+                    _stream_error(stream, "invalid dotted pair syntax");
+                }else if(stream->state->vecMode > 0){
+                    _stream_error(stream, "dotted pair not allowed in vector");
+                }else{
+                    stream->state->dotpairMode = 1;
+                    _stream_putc(stream, nc);
+                }
+            }else{
+                // turn it into a decimal point
+                _stream_putc(stream, nc);
+                _stream_putc(stream, '.');
+                _stream_putc(stream, '0');
+            }
+            break;
+        case '\n': // whitespace
+            stream->lineno++;
+            _stream_parse_atom(stream);
+        case ' ':
+        case '\t':
+        case '\r':
+            break;
+        case '(': // parenthesis
+            _stream_push(stream);
+            break;
+        case ')':
+            if(stream->state->quoteMode){
+                _stream_error(stream, "unbalanced parenthesis");
+            }else if(stream->state->vecMode){
+                _stream_error(stream, "unbalanced brackets");
+            }else{
+                _stream_add_pop(stream);
+            }
+            break;
+        case '[': // vectors
+            _stream_push(stream);
+            stream->state->vecMode = 1;
+            break;
+        case ']':
+            if(stream->state->quoteMode){
+                _stream_error(stream, "unbalanced parenthesis");
+            }else if(!stream->state->vecMode){
+                _stream_error(stream, "unbalanced brackets");
+            }else{
+                _stream_add_pop(stream);
+            }
+            break;
+        case '\'': // quoting
+            _stream_push(stream);
+            _stream_add(stream, sklisp.quote);
+            if(!stream->error){
+                stream->state->quoteMode = 1;
+            }
+            break;
+        case '"': // strings
+            _stream_buf_read(stream, "\"");
+            _stream_add(stream, _stream_parse(stream));
+            _stream_getc(stream);
+            break;
+        default:{ // numbers and symbols
+                _stream_buf_append(stream, c);
+                _stream_buf_read(stream, " \t\r\n()[];");
+                Self self = _stream_parse_atom(stream);
+                if(!stream->error){ _stream_add(stream, self); }
+            }
+            break;
+        }
+    }
+    if(!stream->eof && !stream->error){
+        _stream_skip_whitespace(stream);
+    }
+
+    if(stream->error){
+        return sklisp.Error;
+    }
+
+    // check state
+    stream->done = 1;
+    if(_stream_stack_height(stream) > 1 || stream->state->quoteMode || stream->state->dotpairMode==1){
+        _stream_error(stream, "premature end of file");
+        return sklisp.Error;
+    }
+
+    if(_stream_list_is_empty(stream)){
+        skl_delete(_stream_pop(stream));
+        return sklisp.Nil;
+    }
+
+    Self self = _stream_pop(stream);
+    Self sexp = SKL_INC_RC(SKL_CAR(self));
+    skl_delete(self);
+    return sexp;
 }
 
 // -*-
