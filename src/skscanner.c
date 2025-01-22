@@ -450,8 +450,7 @@ static void _stream_skip_line(Stream* stream){
 
 // -*-
 static usize _stream_stack_height(Stream* stream){
-    //! @todo
-    return 0;
+    return (stream->state - stream->base);
 }
 
 // -*-
