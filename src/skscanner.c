@@ -527,7 +527,9 @@ static bool _stream_list_is_empty(Stream* stream){
 
 // -*-
 static void _stream_print_ps1(Stream* stream){
-    //! @todo
+    if(stream->interactive && _stream_stack_height(stream)==1){
+        printf("%s", stream->ps1);
+    }
 }
 
 // -*-
