@@ -357,8 +357,7 @@ Self skl_new_string_with_len(char* cstr, usize len){
 
 // -*-
 Self skl_new_string(char* str){
-    //! @todo
-    return NULL;
+    return skl_new_string_with_len(str, strlen(str));
 }
 
 // -*-
