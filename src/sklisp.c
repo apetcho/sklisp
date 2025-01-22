@@ -1,5 +1,7 @@
 #include "sklisp.h"
 #include<string.h>
+#include<errno.h>
+#include<assert.h>
 
 // -*--------------------------*-
 // -*- Object && Fun && SForm -*-
@@ -535,7 +537,78 @@ Self skl_vec_slice(const Self self, int start, int end){
     return obj;
 }
 
+// -*-----------*-
 // -*- Channel -*-
+// -*-----------*-
+// -*-
+Self skl_new_channel(Self self){
+    if(SKL_IS_SYMBOL(self)){
+        self = SKL_SYMBOL_GET(self);
+    }
+    Self obj = skl_new(CHANNEL);
+    Channel channel = SKL_VALUE_DATA(obj);
+    int xpipe[2];
+    int ypipe[2];
+    if(pipe(xpipe) != 0){
+        SKL_THROW(
+            sklisp.InvalidChannelError,
+            skl_new_string(skl_strdup(strerror(errno)))
+        );
+    }
+    if(pipe(ypipe) != 0){
+        SKL_THROW(
+            sklisp.InvalidChannelError,
+            skl_new_string(skl_strdup(strerror(errno)))
+        )
+    }
+    channel->pid = fork();
+    if(channel->pid == 0){
+        // child process
+        channel->in = ypipe[0];
+        channel->out = xpipe[1];
+        close(ypipe[1]);
+        close(xpipe[0]);
+
+        fclose(stdin);
+        int fout = fileno(stdout);
+        close(fout);
+        dup2(channel->out, fout);
+        channel->stream = new_stream(fdopen(channel->in, "r"), NULL, "parent", 0);
+        sklisp.parentChannel = obj;
+
+        // execute given function
+        Self exe = skl_new_cons(self, sklisp.Nil);
+        skl_eval(exe);
+        exit(0);
+        SKL_THROW(sklisp.ExitFailure, obj);
+    }
+
+    // parent process
+    channel->in = xpipe[0];
+    channel->out = ypipe[1];
+    close(xpipe[1]);
+    close(ypipe[0]);
+    channel->stream = new_stream(fdopen(channel->in, "r"), NULL, "channel", 0);
+    return NULL;
+}
+
+// -*-
+Self skl_channel(Self self){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+Self skl_channel_receive(Self self){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+Self skl_channel_send(Self self){
+    //! @todo
+    return NULL;
+}
 
 
 // -*----------------------------------------------------------------*-
