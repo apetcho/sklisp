@@ -163,9 +163,32 @@ void skl_println(Self self){
     fputc('\n', stdout);
 }
 
+// -*-
+u32 sklisp_hash(Self self){
+    switch(self->kind){
+    case CONS:
+        return SKL_TRAIT_HASH(sklisp.consTrait)(self);
+    case INTEGER:
+        return SKL_TRAIT_HASH(sklisp.intTrait)(self);
+    case FLOAT:
+        return SKL_TRAIT_HASH(sklisp.floatTrait)(self);
+    case STRING:
+        return SKL_TRAIT_HASH(sklisp.strTrait)(self);
+    case SYMBOL:
+        return SKL_TRAIT_HASH(sklisp.symTrait)(self);
+    case VEC:
+        return SKL_TRAIT_HASH(sklisp.vecTrait)(self);
+    case CHANNEL:
+        return SKL_TRAIT_HASH(sklisp.channelTrait)(self);
+    case BUILTIN:
+    case SPECIAL:
+        return skl_hash(SKL_VALUE_DATA(self), sizeof(void*));
+    }
+    return 0;
+}
+
 // -
 u32 skl_hash(void* obj, usize size){
-    //! @todo
     return 0;
 }
 

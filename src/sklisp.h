@@ -347,6 +347,7 @@ Self skl_new_fun(Fun fun);
 Self skl_new_special(Fun special);
 // -
 u32 skl_hash(void* obj, usize size);
+u32 sklisp_hash(Self self);
 
 // -*-
 void* sk_trait_alloc(usize);
