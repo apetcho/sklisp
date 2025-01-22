@@ -601,8 +601,14 @@ Self skl_channel(Self self){
 
 // -*-
 Self skl_channel_receive(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Get an object from the detached channel.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("receive"));
+    Self obj = SKL_CAR(self);
+    if(!SKL_IS_CHANNEL(obj)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(obj));
+    }
+    Stream* stream = SKL_CHANNEL_STREAM(obj);
+    return stream_read_sexp(stream);
 }
 
 // -*-
