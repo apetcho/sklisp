@@ -269,8 +269,8 @@ static Self _fn_num_gt(Self self){
 
 // -*-
 static Self _fn_num_ge(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compare two numbers by >=.");
+    return _num_cmp(GE, self);
 }
 
 // -*-
