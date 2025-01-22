@@ -189,7 +189,17 @@ u32 sklisp_hash(Self self){
 
 // -
 u32 skl_hash(void* obj, usize size){
-    return 0;
+    u32 result = 0;
+    for(u32 i = 0; i < size; i++){
+        result += ((char*)obj)[i];
+        result += (result << 10);
+        result ^= (result >> 6);
+    }
+
+    result += (result << 3);
+    result ^= (result >> 11);
+    result += (result << 15);
+    return result;
 }
 
 // -*- Numbers -*-
