@@ -462,7 +462,8 @@ static void _delete_str(void* obj){
 }
 
 static void _print_str(void* obj){
-    //! @todo
+    Self self = (Self)obj;
+    printf("%s", SKL_STRING(self));
 }
 
 static u32 _hash_str(void* obj){
@@ -471,7 +472,6 @@ static u32 _hash_str(void* obj){
 }
 
 /*
-static Trait _stringTrait;
 static Trait _symbolTrait;
 static Trait _funTrait;
 static Trait _sformTrait;
@@ -498,6 +498,13 @@ static Trait _consTrait = {
     .dealloc = _delete_cons,
     .print = _print_cons,
     .hash = _hash_cons,
+};
+
+static Trait _stringTrait = {
+    .alloc = _new_str,
+    .dealloc = _delete_str,
+    .print = _print_str,
+    .hash = _hash_str,
 };
 
 
