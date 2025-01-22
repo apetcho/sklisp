@@ -562,7 +562,10 @@ static void _stream_add(Stream* stream, Self self){
 
 // -*-
 static void _stream_add_pop(Stream* stream){
-    //! @todo
+    Self self = _stream_pop(stream);
+    if(!stream->error){
+        _stream_add(stream, self);
+    }
 }
 
 // -*-
