@@ -455,7 +455,17 @@ static usize _stream_stack_height(Stream* stream){
 
 // -*-
 static void _stream_push(Stream* stream){
-    //! @todo
+    stream->state++;
+    if(stream->state == stream->base + stream->stackSize){
+        stream->stackSize *= 2;
+        stream->base = skl_realloc(stream->base, sizeof(SKLState*)*stream->stackSize);
+        stream->state = stream->base + stream->stackSize/2;
+    }
+    // clear the state
+    stream->state->quoteMode = 0;
+    stream->state->dotpairMode = 0;
+    stream->state->vecMode = 0;
+    stream->state->head = stream->state->tail = skl_new_cons(sklisp.Nil, sklisp.Nil);
 }
 
 // -*-
