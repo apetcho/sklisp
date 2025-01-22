@@ -492,7 +492,8 @@ static Self _stream_pop(Stream* stream){
 
 // -*-
 static void _stream_reset_buf(Stream* stream){
-    //! @todo
+    stream->bufp = stream->buf;
+    *(stream->bufp) = '\0';
 }
 
 // -*-
