@@ -403,7 +403,14 @@ Self skl_new_uninterned_symbol(const char* cstr){
 
 // -*-
 void skl_symbol_intern(Self self){
-    //! @todo
+    dict_insert(
+        sklisp.symtab,
+        SKL_SYMBOL(self),
+        strlen(SKL_SYMBOL(self)),
+        self,
+        sizeof(Self)
+    );
+    SKL_SYMBOL_PROPS(self) |= SKL_SYMBOL_INTERNED;
 }
 
 // -*-
