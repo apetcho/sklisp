@@ -380,7 +380,17 @@ Self skl_string_cat(Self lhs, Self rhs){
     return skl_new_string_with_len(str, len);
 }
 
+// -*----------*-
 // -*- Symbol -*-
+// -*----------*-
+/*
+Self skl_new_symbol(const char* name);
+Self skl_new_uninterned_symbol(const char*);
+void skl_symbol_intern(Self self);
+void skl_symtab_pop(Self symtab);
+void skl_symtab_push(Self symtab, Self self);
+*/
+
 // -*- Vec -*-
 // -*- Channel -*-
 
@@ -531,6 +541,16 @@ static void _str_mempool_discard(void* obj){
     str->raw = NULL;
     str->repr = NULL;
     str->len = 0;
+}
+
+static void _init_symtab(void){
+    sklisp.symtab = new_dict(2048, NULL);
+    sklisp.Nil = skl_new_symbol("nil");
+    *((Symbol)SKL_VALUE_DATA(sklisp.Nil))->values = sklisp.Nil;
+    SKL_SYMBOL_PROPS(sklisp.Nil) |= SKL_SYMBOL_CONSTANT;
+    sklisp.True = skl_new_symbol("t");
+    SKL_SYMBOL_PROPS(sklisp.True) |= SKL_SYMBOL_CONSTANT;
+    SKL_SYMBOL_UPDATE(sklisp.True, sklisp.True);
 }
 
 // -*-
