@@ -344,7 +344,16 @@ Self skl_is_proper_list(Self self){
 }// properlistp
 
 
+// -*----------*-
 // -*- String -*-
+// -*----------*-
+/*
+Self skl_new_string_with_len(const char* cstr, usize len);
+Self skl_new_string(const char* str);
+void skl_string_genp(Self self);
+Self skl_string_cat(Self lhs, Self rhs);
+*/
+
 // -*- Symbol -*-
 // -*- Vec -*-
 // -*- Channel -*-
@@ -383,21 +392,21 @@ static void _print_float(void* obj){
 }
 
 // -*-
-void* _new_cons(void){
+static void* _new_cons(void){
     return mempool_alloc(sklisp.conspool);
 }
 
 // -*-
-void _delete_cons(void* self){
+static void _delete_cons(void* self){
     mempool_free(sklisp.conspool, self);
 }
 
-u32 _hash_cons(void* obj){
+static u32 _hash_cons(void* obj){
     Self self = (Self)obj;
     return sklisp_hash(SKL_CAR(self)) ^ sklisp_hash(SKL_CDR(self));
 }
 
-void _print_cons(void* obj){
+static void _print_cons(void* obj){
     Self self = (Self)obj;
     fputc('(', stdout);
     Self ptr = self;
@@ -412,6 +421,26 @@ void _print_cons(void* obj){
     }
     fputc(')', stdout);
 }
+
+// -*-
+static void* _new_str(void){
+    //! @todo
+    return NULL;
+}
+
+static void _delete_str(void* obj){
+    //! @todo
+}
+
+static void _print_str(void* obj){
+    //! @todo
+}
+
+static u32 _hash_str(void* obj){
+    //! @todo
+    return 0;
+}
+
 /*
 static Trait _stringTrait;
 static Trait _symbolTrait;
@@ -461,9 +490,18 @@ static void _cons_mempool_discard(void* obj){
 }
 
 // -*-
+static void _str_mempool_discard(void* obj){
+    String str = (String)obj;
+    str->raw = NULL;
+    str->repr = NULL;
+    str->len = 0;
+}
+
+// -*-
 void sklisp_initialize(void){
     sklisp.mempool = new_mempool(sizeof(struct object), _object_mempool_discard);
     sklisp.conspool = new_mempool(sizeof(struct cons), _cons_mempool_discard);
+    sklisp.strpool = new_mempool(sizeof(struct str), _str_mempool_discard);
     //! @todo
 }
 
