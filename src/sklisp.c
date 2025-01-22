@@ -121,6 +121,48 @@ void skl_delete(Self self){
     mempool_free(sklisp.mempool, (void*)self);
 }
 
+// -*-
+void skl_print(Self self){
+    switch(self->kind){
+    case CONS:
+        SKL_TRAIT_PRINT(sklisp.consTrait);
+        break;
+    case INTEGER:
+        SKL_TRAIT_PRINT(sklisp.intTrait);
+        break;
+    case FLOAT:
+        SKL_TRAIT_PRINT(sklisp.floatTrait);
+        break;
+    case STRING:
+        SKL_TRAIT_PRINT(sklisp.strTrait);
+        break;
+    case SYMBOL:
+        SKL_TRAIT_PRINT(sklisp.symTrait);
+        break;
+    case VEC:
+        SKL_TRAIT_PRINT(sklisp.vecTrait);
+        break;
+    case CHANNEL:
+        SKL_TRAIT_PRINT(sklisp.channelTrait);
+        break;
+    case BUILTIN:
+        printf("<builtin @ 0x%p", self->value.fun);
+        break;
+    case SPECIAL:
+        printf("<special-form @ 0x%p", self->value.fun);
+        break;
+    default:
+        fputs("Error: unknown type", stderr);
+        break;
+    }
+}
+
+// -*-
+void skl_println(Self self){
+    skl_print(self);
+    fputc('\n', stdout);
+}
+
 // -
 u32 skl_hash(void* obj, usize size){
     //! @todo

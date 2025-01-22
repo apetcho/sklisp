@@ -340,6 +340,8 @@ struct object{
 // -
 Self skl_new(TypeKind kind);
 void skl_delete(Self self);
+void skl_print(Self self);
+void skl_println(Self self);
 Self skl_new_cons(Self car, Self cdr);
 Self skl_new_fun(Fun fun);
 Self skl_new_special(Fun special);
