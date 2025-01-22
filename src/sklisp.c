@@ -397,6 +397,21 @@ u32 _hash_cons(void* obj){
     return sklisp_hash(SKL_CAR(self)) ^ sklisp_hash(SKL_CDR(self));
 }
 
+void _print_const(void* obj){
+    Self self = (Self)obj;
+    fputc('(', stdout);
+    Self ptr = self;
+    while(ptr->kind == CONS){
+        skl_print(SKL_CAR(ptr));
+        ptr = SKL_CDR(ptr);
+        if(ptr->kind == CONS){ fputc(' ', stdout); }
+    }
+    if(ptr != sklisp.Nil){
+        printf(" . ");
+        skl_print(ptr);
+    }
+    fputc(')', stdout);
+}
 /*
 static Trait _stringTrait;
 static Trait _symbolTrait;
