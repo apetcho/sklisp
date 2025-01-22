@@ -385,8 +385,12 @@ Self skl_string_cat(Self lhs, Self rhs){
 // -*----------*-
 // -*-
 Self skl_new_symbol(const char* name){
-    //! @todo
-    return 0;
+    Self self = (Self)dict_search(sklisp.symtab, (void*)name, strlen(name));
+    if(self == NULL){
+        self = skl_new_uninterned_symbol(name);
+        skl_symbol_intern(self);
+    }
+    return self;
 }
 
 // -*-
