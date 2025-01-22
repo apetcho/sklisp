@@ -611,8 +611,43 @@ static Self _stream_parse(Stream* stream){
 
 // -*-
 static Self _stream_parse_atom(Stream* stream){
-    //! @todo
-    return NULL;
+    char* str = stream->buf;
+    char* end = NULL;
+
+    // detect integer
+    long num = strtol(str, &end, 10);
+    SKL_UNUSED(num);
+    if(end != str && *end == '\0'){
+        Self self = skl_new_integer_from_cstr(str);
+        _stream_reset_buf(stream);
+        return self;
+    }
+
+    // detect float
+    double fnum = strtod(str, &end);
+    SKL_UNUSED(fnum);
+    if(end != str && *end == '\0'){
+        Self self = skl_new_float_from_cstr(str);
+        _stream_reset_buf(stream);
+        return self;
+    }
+
+    // might be a symbol
+    char* ptr = stream->buf;
+    while(ptr <= stream->bufp){
+        if(strchr(_sklAtomchars, *ptr)==NULL){
+            char* errmsg = skl_strdup("invalid symbol character: X");
+            errmsg[strlen(errmsg)-1] = *ptr;
+            _stream_error(stream, errmsg);
+            skl_free(errmsg);
+            return sklisp.Nil;
+        }
+        ptr++;
+    }
+
+    Self self = skl_new_symbol(stream->buf);
+    _stream_reset_buf(stream);
+    return self;
 }
 
 // -*-
