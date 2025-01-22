@@ -278,8 +278,20 @@ Self skl_list_expect_len(Self self, Self err, int len){
 
 // -*-
 Self skl_list_expect_min_len(Self self, Self err, int len){
-    //! @todo
-    return 0;
+    int n = 0;
+    Self ptr = self;
+    while(ptr != sklisp.Nil){
+        n++;
+        ptr = SKL_CDR(ptr);
+        if(!SKL_IS_LIST(ptr)){
+            skl_delete(err);
+            SKL_THROW(sklisp.InvalidListError, self);
+        }
+        if(n >= len){ return sklisp.True; }
+    }
+
+    if(n < len){ SKL_THROW(sklisp.InvalidArgNumberError, err); }
+    return sklisp.True;
 }
 
 // -*-
