@@ -12,6 +12,13 @@ typedef enum { EQ, LT, LE, GT, GE } CmpOp;
 static Self _arithm(ArithOp op, Self self){
     if(op==DIV){
         SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol("div"));
+    }else if(op==ADD || op==SUB || op==MUL){
+        const char* ops[] = {
+            [ADD] = "add",
+            [SUB] = "sub",
+            [MUL] = "mul",
+        };
+        SKL_EXPECT_MIN_LEN(self, 1, skl_new_symbol(ops[op]));
     }
     bool imode = true;
     Self ival = sklisp.Nil;
@@ -178,7 +185,15 @@ static Self _fn_div(Self self){
 
 // -*-
 static Self _num_cmp(CmpOp op, Self self){
-    //! @todo
+    // EQ, LT, LE, GT, GE
+    const char* ops[] = {
+        [EQ] = "eq",
+        [LT] = "lt",
+        [LE] = "le",
+        [GT] = "gt",
+        [GE] = "ge",
+    };
+    SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol(ops[op]));
     return NULL;
 }
 
