@@ -172,8 +172,8 @@ static Self _fn_sub(Self self){
 
 // -*-
 static Self _fn_div(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Perform division operation.");
+    return _arithm(DIV, self);
 }
 
 // -*-
