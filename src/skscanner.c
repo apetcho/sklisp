@@ -582,8 +582,23 @@ static void _stream_buf_append(Stream* stream, char c){
 
 // -*-
 static int _stream_buf_read(Stream* stream, char* halt){
-    //! @todo
-    return 0;
+    bool esc = false;
+    int c = _stream_getc(stream);
+    if(c=='\\'){
+        c = _stream_getc(stream);
+        esc = true;
+    }
+    while((esc || strchr(halt, c)==NULL) && (c != EOF)){
+        _stream_buf_append(stream, c);
+        c = _stream_getc(stream);
+        esc = false;
+        if(c == '\\'){
+            c = _stream_getc(stream);
+            esc = true;
+        }
+    }
+    _stream_putc(stream, c);
+    return (int)(!esc);
 }
 
 // -*-
