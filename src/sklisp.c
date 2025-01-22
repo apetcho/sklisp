@@ -243,8 +243,7 @@ Self skl_new_float(double num){
 
 // -*-
 long skl_to_integer(Self self){
-    //! @todo
-    return 0;
+    return mpz_get_si(SKL_DEREF_INTEGER(self));
 }
 
 // -*-
