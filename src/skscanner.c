@@ -534,7 +534,9 @@ static void _stream_print_ps1(Stream* stream){
 
 // -*-
 static void _stream_print_ps2(Stream* stream){
-    //! @todo
+    if(stream->interactive && _stream_stack_height(stream) > 1){
+        printf("%s", stream->ps1);
+    }
 }
 
 // -*-
