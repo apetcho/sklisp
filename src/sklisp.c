@@ -252,7 +252,11 @@ double skl_to_float(Self self){
     return mpf_get_d(SKL_DEREF_FLOAT(self));
 }
 
+// -*--------*-
 // -*- Cons -*-
+// -*--------*-
+
+
 // -*- String -*-
 // -*- Symbol -*-
 // -*- Vec -*-
@@ -327,6 +331,13 @@ static void _object_mempool_discard(void* obj){
     SKL_VALUE_FUN(self) = NULL;
 }
 
+static void _cons_mempool_discard(void* obj){
+    Cons self = (Cons)obj;
+    self->car = sklisp.Nil;
+    self->cdr = sklisp.Nil;
+}
+
+
 /*
 static Mempool _mempool;
 static Mempool _conspool;
@@ -337,6 +348,7 @@ static Mempool _vecpool;
 // -*-
 void sklisp_initialize(void){
     sklisp.mempool = new_mempool(sizeof(struct object), _object_mempool_discard);
+    sklisp.conspool = new_mempool(sizeof(struct cons), _cons_mempool_discard);
     //! @todo
 }
 
