@@ -263,8 +263,8 @@ static Self _fn_num_le(Self self){
 
 // -*-
 static Self _fn_num_gt(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compare two numbers by >.");
+    return _num_cmp(GT, self);
 }
 
 // -*-
