@@ -19,7 +19,10 @@ static void _mempool_fill_stack(Mempool pool){
 
 // -*-
 static void _mempool_resize_stack(Mempool pool){
-    //! @todo
+    pool->len *= 2;
+    usize len = pool->stack - pool->base;
+    pool->base = skl_realloc(pool->base, pool->len*sizeof(void*));
+    pool->stack = pool->base + len;
 }
 
 // -*-
