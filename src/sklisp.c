@@ -37,8 +37,9 @@ Mempool new_mempool(usize itemsize, void (*discard)(void*)){
 }
 
 // -*-
-void delete_mempool(Mempool mempool){
-    //! @todo
+void delete_mempool(Mempool pool){
+    skl_free(pool->stack);
+    skl_free(pool);
 }
 
 // -*-
