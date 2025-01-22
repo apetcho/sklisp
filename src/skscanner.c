@@ -603,8 +603,10 @@ static int _stream_buf_read(Stream* stream, char* halt){
 
 // -*-
 static Self _stream_parse(Stream* stream){
-    //! @todo
-    return NULL;
+    usize size = (stream->bufp - stream->buf);
+    char* str = skl_strdup(stream->buf);
+    _stream_reset_buf(stream);
+    return skl_new_string_with_len(str, size);
 }
 
 // -*-
