@@ -383,13 +383,41 @@ Self skl_string_cat(Self lhs, Self rhs){
 // -*----------*-
 // -*- Symbol -*-
 // -*----------*-
-/*
-Self skl_new_symbol(const char* name);
-Self skl_new_uninterned_symbol(const char*);
-void skl_symbol_intern(Self self);
-void skl_symtab_pop(Self symtab);
-void skl_symtab_push(Self symtab, Self self);
-*/
+// -*-
+Self skl_new_symbol(const char* name){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_new_uninterned_symbol(const char* cstr){
+    //! @todo
+    return 0;
+}
+
+// -*-
+void skl_symbol_intern(Self self){
+    //! @todo
+}
+
+// -*-
+void skl_symtab_pop(Self symtab){
+    //! @todo
+}
+
+// -*-
+void skl_symtab_push(Self symtab, Self self){
+    Symbol sym = (Symbol)SKL_VALUE_DATA(symtab);
+    sym->values++;
+    if(sym->values == sym->len + sym->stack){
+        usize n = sym->values - sym->stack;
+        sym->len *= 2;
+        sym->stack = skl_realloc(sym->stack, sym->len*sizeof(Self));
+        sym->values = sym->stack + n;
+    }
+    *sym->values = self;
+    SKL_INC_RC(self);
+}
 
 // -*- Vec -*-
 // -*- Channel -*-
@@ -558,6 +586,9 @@ void sklisp_initialize(void){
     sklisp.mempool = new_mempool(sizeof(struct object), _object_mempool_discard);
     sklisp.conspool = new_mempool(sizeof(struct cons), _cons_mempool_discard);
     sklisp.strpool = new_mempool(sizeof(struct str), _str_mempool_discard);
+
+    // -*-
+    _init_symtab();
     //! @todo
 }
 
