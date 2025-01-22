@@ -243,7 +243,8 @@ typedef struct {
     // -*- meta -*-
     char* name;         // ??? filename
     int interactive;
-    char* promot;
+    char* ps1;
+    char* ps2;
 
     // -*- Stream State -*-
     u32 lineno;
@@ -251,7 +252,7 @@ typedef struct {
 
     // -*- atom stream buffer
     char* buf;
-    char* bufP;
+    char* bufp;
     usize buflen;
 
     // -*- stream buffer -*-
@@ -276,7 +277,6 @@ void delete_stream(Stream* stream);
 Self stream_read_sexp(Stream* stream);
 int stream_load_file(FILE* fp, char* filename, int interactive);
 void repl(void);
-int require(char* libname);
 
 
 // -*----------------------------------------------------------------*-
@@ -550,7 +550,8 @@ struct SKLisp{
     // -*----------------*-
     Dict symtab;
     // -*-
-    char* prompt;
+    char* ps1;
+    char* ps2;
     char* path;             // - wisproot
 
     Self Nil;

@@ -920,9 +920,11 @@ void sklisp_initialize(void){
     //! @todo
     /*
     char* prompt;
-    // SKLISP_PATH = "${HOME}/.sklisp"
-    char* path;                             // -* wisproot -*-
     */
+    sklisp.ps1 = "skl>> ";
+    sklisp.ps2 = "....> ";
+    // SKLISP_PATH = "${HOME}/.sklisp"
+    sklisp.path = NULL;                     // -* wisproot -*-
     skl_init_builtins();
     skl_init_math();
     skl_init();

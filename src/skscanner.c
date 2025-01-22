@@ -335,3 +335,67 @@ Self skl_apply(Self fun, Self argv){
     }
     return sklisp.Nil;
 }
+
+// -*----------------------------------------------------------------*-
+// -*- sklisp::Scanner                                              -*-
+// -*----------------------------------------------------------------*-
+static void _stream_error(Stream* stream, char* str);
+static void _stream_add_pop(Stream* stream);
+static void _stream_reset(Stream* stream);
+
+
+static const char* _sklAtomchars = (
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    "abcdefghijklmnopqrstuvwxyz"
+    "0123456789"
+    "!#$%^&*-_=+|\\/?.~<>"
+);
+
+// -*-
+Stream* new_stream(FILE* fp, char* str, char* name, int interactive){
+    Stream* stream = skl_alloc(sizeof(Stream));
+    stream->fp = fp;
+    stream->src = stream->srcp = str;
+    stream->name = name ? name : "<unknown>";
+    stream->interactive = interactive;
+    stream->ps1 = sklisp.ps1;
+    stream->ps2 = sklisp.ps2;
+    stream->lineno = 1;
+    stream->eof = 0;
+    stream->error = 0;
+    stream->shebang = (-1 + interactive);
+    stream->done = 0;
+
+    // read buffers
+    stream->buflen = 1024;
+    stream->bufp = stream->buf = skl_alloc(stream->buflen + 1);
+    stream->readbuflen = 8;
+    stream->readbufp = stream->readbuf = skl_alloc(stream->readbuflen*sizeof(int));
+
+    // state stack
+    stream->stackSize = 32;
+    stream->base = stream->state = skl_alloc(stream->stackSize*sizeof(SKLState));
+    return stream;
+}
+
+// -*-
+void delete_stream(Stream* stream){
+    //! @todo
+}
+
+// -*-
+Self stream_read_sexp(Stream* stream){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+int stream_load_file(FILE* fp, char* filename, int interactive){
+    //! @todo
+    return 0;
+}
+
+// -*-
+void repl(void){
+    //! @todo
+}
