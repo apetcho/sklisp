@@ -456,8 +456,21 @@ Self skl_new_vec(usize len, Self init){
 
 // -*-
 Self skl_list_to_vec(Self self){
-    //! @todo
-    return 0;
+    int len = 0;
+    Self ptr = self;
+    while(ptr != sklisp.Nil){
+        len++;
+        ptr = SKL_CDR(ptr);
+    }
+    Self vec = skl_new_vec(len, sklisp.Nil);
+    ptr = self;
+    usize i = 0;
+    while(ptr != sklisp.Nil){
+        skl_vec_set(vec, i, SKL_INC_RC(SKL_CAR(ptr)));
+        i++;
+        ptr = SKL_CDR(ptr);
+    }
+    return vec;
 }
 
 // -*-
