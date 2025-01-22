@@ -428,7 +428,11 @@ static void* _new_str(void){
 }
 
 static void _delete_str(void* obj){
-    //! @todo
+    String self = (String)obj;
+    if(self->repr != NULL){
+        return skl_free(self->repr);
+    }
+    mempool_free(sklisp.strpool, (void*)self);
 }
 
 static void _print_str(void* obj){
