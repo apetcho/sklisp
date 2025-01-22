@@ -283,7 +283,11 @@ static void _print_integer(void* obj){
     gmp_printf("%Zd", SKL_INTEGER_PTR(self));
 }
 
-static void _print_float(void* obj);
+// -*-
+static void _print_float(void* obj){
+    Self self = (Self)obj;
+    gmp_printf("%.Ff", SKL_FLOAT_PTR(self));
+}
 
 /*
 static Trait _intTrait;
