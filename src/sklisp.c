@@ -277,6 +277,14 @@ static u32 _hash_float(Self self){
     return result;
 }
 
+// -*-
+static void _print_integer(void* obj){
+    Self self = (Self)obj;
+    gmp_printf("%Zd", SKL_INTEGER_PTR(self));
+}
+
+static void _print_float(void* obj);
+
 /*
 static Trait _intTrait;
 static Trait _floatTrait;
