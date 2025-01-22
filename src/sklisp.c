@@ -594,8 +594,9 @@ Self skl_new_channel(Self self){
 
 // -*-
 Self skl_channel(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Create a channel detachment");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("channel"));
+    return skl_new_channel(SKL_CAR(self));
 }
 
 // -*-
