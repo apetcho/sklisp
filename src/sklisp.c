@@ -1,4 +1,5 @@
 #include "sklisp.h"
+#include<string.h>
 
 // -*--------------------------*-
 // -*- Object && Fun && SForm -*-
@@ -261,6 +262,15 @@ double skl_to_float(Self self){
 // -*----------------------------------------------------------------*-
 // -*- Trait Initializers                                           -*-
 // -*----------------------------------------------------------------*-
+static u32 _hash_float(Self self){
+    char* str = mpz_get_str(NULL, 16, SKL_DEREF_INTEGER(self));
+    u32 result = skl_hash(str, strlen(str));
+    skl_free(str);
+    return result;
+}
+
+// -*-
+static u32 _hash_integer(Self self);
 /*
 static Trait _intTrait;
 static Trait _floatTrait;
