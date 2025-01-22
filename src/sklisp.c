@@ -391,8 +391,14 @@ Self skl_new_symbol(const char* name){
 
 // -*-
 Self skl_new_uninterned_symbol(const char* cstr){
-    //! @todo
-    return 0;
+    char* val = skl_strdup(cstr);
+    Self self = skl_new(SYMBOL);
+    SKL_SYMBOL(self) = val;
+    *((Symbol)SKL_VALUE_DATA(self))->values = sklisp.Nil;
+    if(val[0]==':'){
+        SKL_SYMBOL_UPDATE(self, self);
+    }
+    return self;
 }
 
 // -*-
