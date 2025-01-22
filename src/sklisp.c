@@ -27,8 +27,13 @@ static void _mempool_resize_stack(Mempool pool){
 
 // -*-
 Mempool new_mempool(usize itemsize, void (*discard)(void*)){
-    //! @todo
-    return NULL;
+    Mempool pool = skl_alloc(sizeof(*pool));
+    pool->itemsize = itemsize;
+    pool->discard = discard;
+    pool->len = 1024;
+    pool->stack = pool->stack = skl_alloc(sizeof(void*)*pool->len);
+    _mempool_fill_stack(pool);
+    return pool;
 }
 
 // -*-
