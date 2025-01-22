@@ -475,25 +475,38 @@ Self skl_list_to_vec(Self self){
 
 // -*-
 void skl_vec_set(Self self, usize idx, Self val){
-    //! @todo
-}
-
-// -*-
-Self skl_vec_get(const Self self, usize idx){
-    //! @todo
-    return 0;
+    Vec vec = SKL_VALUE_DATA(self);
+    Self item = vec->data[idx];
+    vec->data[idx] = val;
+    skl_delete(item);
 }
 
 // -*-
 Self skl_vec_safe_set(Self self, Self idx, Self val){
-    //! @todo
-    return 0;
+    long i = skl_to_integer(idx);
+    Vec vec = SKL_VALUE_DATA(self);
+    if(i < 0 || i >= (int)vec->len){
+        SKL_THROW(sklisp.IndexError, SKL_INC_RC(idx));
+    }
+    skl_vec_set(self, i, SKL_INC_RC(val));
+    return SKL_INC_RC(val);
 }
 
 // -*-
+Self skl_vec_get(const Self self, usize idx){
+    Vec vec = SKL_VALUE_DATA(self);
+    return vec->data[idx];
+}
+
+
+// -*-
 Self skl_vec_safe_get(const Self self, Self idx){
-    //! @todo
-    return 0;
+    long i = skl_to_integer(idx);
+    Vec vec = SKL_VALUE_DATA(self);
+    if(i < 0 || i >= (int)vec->len){
+        SKL_THROW(sklisp.IndexError, SKL_INC_RC(idx));
+    }
+    return SKL_INC_RC(skl_vec_get(self, i));
 }
 
 // -*-
