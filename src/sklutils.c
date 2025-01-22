@@ -8,7 +8,7 @@ void* skl_alloc(usize size){
     void* ptr = calloc(1, size);
     if(ptr==NULL){
         char msg[512] = {0};
-        snprintf(msg, sizeof(msg)-1, "Error: out of memory: %s\n", strerror(errno));
+        snprintf(msg, sizeof(msg)-1, "Error: out of memory: %s", strerror(errno));
         fputs(msg, stderr);
         exit(EXIT_FAILURE);
     }
@@ -19,7 +19,7 @@ void* skl_realloc(void* ptr, usize size){
     void* mem = realloc(ptr, size);
     if(mem==NULL){
         char msg[512] = {0};
-        snprintf(msg, sizeof(msg)-1, "Error: out of memory: %s\n", strerror(errno));
+        snprintf(msg, sizeof(msg)-1, "Error: out of memory: %s", strerror(errno));
         fputs(msg, stderr);
         exit(EXIT_FAILURE);
     }

@@ -886,6 +886,11 @@ void sklisp_initialize(void){
 
     // -*-
     _init_symtab();
+
+    // -*-
+    sklisp.stackDepth = 0;
+    sklisp.maxStackDepth = 20000;
+    sklisp.interactiveMode = 0;
     //! @todo
 }
 
