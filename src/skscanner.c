@@ -163,11 +163,6 @@ static Self _skl_eval_list(Self self){
 }
 
 // -*-
-Self skl_eval(Self self){
-    return NULL;
-}
-
-// -*-
 Self skl_eval_body(Self body){
     Self result = sklisp.Nil;
     while(body != sklisp.Nil){
@@ -238,12 +233,29 @@ void skl_unbind_args(Self vars){
 
 // -*-
 Self skl_top_eval(Self self){
-    //! @todo
-    return 0;
+    sklisp.stackDepth = 0;
+    Self result = skl_eval(self);
+    if(result == sklisp.Error){
+        fputs("SKLisp Error:", stderr);
+        Self cell = skl_new_cons(
+            sklisp.ThrownError,
+            skl_new_cons(sklisp.AttachError, sklisp.Nil)
+        );
+        skl_println(cell);
+        skl_delete(cell);
+        return sklisp.Error;
+    }
+    return result;
 }
 
 // -*-
 Self skl_apply(Self fun, Self argv){
     //! @todo
     return 0;
+}
+
+// -*-
+Self skl_eval(Self self){
+    //! @todo
+    return NULL;
 }
