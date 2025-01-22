@@ -116,12 +116,38 @@ static void _handle_interrupt(int sig){
 void skl_init(void){
     // install interrupt handler
     signal(SIGINT, _handle_interrupt);
+    const char* sklprelude = "sklprelude.skl";
+    FILE* fp = fopen(sklprelude, "");
+    if(fp == NULL){
+        char buffer[256] = {0};
+        snprintf(
+            buffer, sizeof(buffer)-1,
+            "Error: unable to create file '%s'", sklprelude
+        );
+        fputs(buffer, stderr);
+        exit(EXIT_FAILURE);
+    }
+    for(int i=0; i < SKL_PRELUDE_LEN; i++){
+        if(_skl_prelude_[i]==NULL){ break;}
+        fputs(_skl_prelude_[i], fp);
+    }
+    fclose(fp);
+    int rc = stream_load_file(NULL, (char*)sklprelude, 0);
+    if(!rc){
+        char buffer[256] = {0};
+        snprintf(
+            buffer, sizeof(buffer)-1,
+            "Error: unable to load file '%s'", sklprelude
+        );
+        fputs(buffer, stderr);
+        exit(EXIT_FAILURE);
+    }
+    remove(sklprelude);
 }// i.e eval_init
 
 // -*-
 Self skl_eval(Self self){
-    //! @todo
-    return 0;
+    return NULL;
 }
 
 // -*-
