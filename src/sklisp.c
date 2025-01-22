@@ -202,7 +202,48 @@ u32 skl_hash(void* obj, usize size){
     return result;
 }
 
+// -*-----------*-
 // -*- Numbers -*-
+// -*-----------*-
+// -*-
+Self skl_new_integer_from_cstr(const char* from){
+    Self self = skl_new(INTEGER);
+    mpz_t* num = SKL_VALUE_DATA(self);
+    mpz_init(*num);
+    mpz_set_str(*num, from, 10);
+    return self;
+}
+
+// -*-
+Self skl_new_integr(long num){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_new_float_from_cstr(const char* from){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_new_float(double num){
+    //! @todo
+    return 0;
+}
+
+// -*-
+long skl_to_integer(Self self){
+    //! @todo
+    return 0;
+}
+
+// -*-
+double skl_to_float(Self self){
+    //! @todo
+    return 0;
+}
+
 // -*- Cons -*-
 // -*- String -*-
 // -*- Symbol -*-

@@ -350,11 +350,11 @@ u32 skl_hash(void* obj, usize size);
 u32 sklisp_hash(Self self);
 
 // -*-
-void* sk_trait_alloc(usize);
-void sk_trait_dealloc(void* obj);
-void sk_trait_print(void* obj);
-void sk_trait_prtintln(void* obj);
-u32 sk_trait_hash(Self self);
+// void* sk_trait_alloc(usize);
+// void sk_trait_dealloc(void* obj);
+// void sk_trait_print(void* obj);
+// void sk_trait_prtintln(void* obj);
+// u32 sk_trait_hash(Self self);
 
 /*
 void object_init(void);                             // XXX: <init>
