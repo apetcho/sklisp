@@ -438,7 +438,56 @@ void skl_symtab_push(Self symtab, Self self){
     SKL_INC_RC(self);
 }
 
+// -*-------*-
 // -*- Vec -*-
+// -*-------*-
+// -*-
+Self skl_new_vec(usize len, Self init){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_list_to_vec(Self self){
+    //! @todo
+    return 0;
+}
+
+// -*-
+void skl_vec_set(Self self, usize idx, Self val){
+    //! @todo
+}
+
+// -*-
+Self skl_vec_get(const Self self, usize idx){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_vec_safe_set(Self self, Self idx, Self val){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_vec_safe_get(const Self self, Self idx){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_vec_concat(const Self lhs, const Self rhs){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_vec_slice(const Self self, int start, int end){
+    //! @todo
+    return 0;
+}
+
 // -*- Channel -*-
 
 
@@ -528,11 +577,41 @@ static u32 _hash_str(void* obj){
     return skl_hash(SKL_STRING(self), SKL_STRING_LEN(self));
 }
 
+// -*-
+static void _print_symbol(void* arg){
+    Self self = (Self)arg;
+    printf("%s", ((Symbol)SKL_VALUE_DATA(self))->name);
+}
+
+static u32 _hash_symbol(void* arg){
+    Self self = (Self)arg;
+    return skl_hash(SKL_SYMBOL(self), strlen(SKL_SYMBOL(self)));
+}
+
+// -*-
+static void* _new_vec(void){
+    return mempool_alloc(sklisp.vecpool);
+}
+
+// -*-
+static void _dealloc_vec(void* obj){
+    //! @todo 
+}
+
+// -*-
+static void _pprint_vec(void* obj){
+    //! @todo
+}
+
+// -*-
+static u32 _hash_vec(void* obj){
+    //! @todo
+    return 0;
+}
+
 /*
-static Trait _symbolTrait;
 static Trait _funTrait;
 static Trait _sformTrait;
-static Trait _vecTrait;
 static Trait _channelTrait;
 */
 
@@ -564,6 +643,13 @@ static Trait _stringTrait = {
     .hash = _hash_str,
 };
 
+static Trait _symbolTrait = {
+    .alloc = NULL,
+    .dealloc = NULL,
+    .print = _print_symbol,
+    .hash = _hash_symbol,
+};
+
 
 // -*----------------------------------------------------------------*-
 // -*- Mempool initializers                                         -*-
@@ -590,6 +676,13 @@ static void _str_mempool_discard(void* obj){
     str->len = 0;
 }
 
+// -*-
+static void _vec_mempool_discard(void* obj){
+    Vec vec = (Vec)obj;
+    vec->data = NULL;
+    vec->len = 0;
+}
+
 static void _init_symtab(void){
     sklisp.symtab = new_dict(2048, NULL);
     sklisp.Nil = skl_new_symbol("nil");
@@ -602,9 +695,17 @@ static void _init_symtab(void){
 
 // -*-
 void sklisp_initialize(void){
+    // -*-
+    sklisp.consTrait = &_consTrait;
+    sklisp.intTrait = &_intTrait;
+    sklisp.floatTrait = &_floatTrait;
+    sklisp.strTrait = &_stringTrait;
+    sklisp.symTrait = &_symbolTrait;
+    // -*-
     sklisp.mempool = new_mempool(sizeof(struct object), _object_mempool_discard);
     sklisp.conspool = new_mempool(sizeof(struct cons), _cons_mempool_discard);
     sklisp.strpool = new_mempool(sizeof(struct str), _str_mempool_discard);
+    sklisp.vecpool = new_mempool(sizeof(struct vec), _vec_mempool_discard);
 
     // -*-
     _init_symtab();
