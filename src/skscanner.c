@@ -342,8 +342,8 @@ Self skl_apply(Self fun, Self argv){
 static void _stream_error(Stream* stream, char* str); // XXX
 static void _stream_add_pop(Stream* stream); // XXX
 static void _stream_reset(Stream* stream); // XXX
-static int _stream_getc(Stream* stream); // XXX
-static void _stream_putc(Stream* stream); // XXX
+static int _stream_getc(Stream* stream);
+static void _stream_putc(Stream* stream, int c);
 static void _stream_consume_whitespace(Stream* stream); // XXX
 static void _stream_consume_line(Stream* stream); // XXX
 static usize _stream_stack_height(Stream* stream); // XXX
@@ -420,8 +420,14 @@ static int _stream_getc(Stream* stream){
 }
 
 // -*-
-static void _stream_putc(Stream* stream){
-    //! @todo
+static void _stream_putc(Stream* stream, int c){
+    stream->readbufp++;
+    if(stream->readbufp == stream->readbuf + stream->readbuflen){
+        stream->readbuflen *= 2;
+        stream->readbuf = skl_realloc(stream->readbuf, sizeof(int)*stream->readbuflen);
+        stream->readbufp = stream->readbuf + stream->readbuflen/2;
+    }
+    *(stream->readbufp) = c;
 }
 
 // -*-
