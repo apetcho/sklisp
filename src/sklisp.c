@@ -637,8 +637,20 @@ static void _dealloc_vec(void* obj){
 }
 
 // -*-
-static void _pprint_vec(void* obj){
-    //! @todo
+static void _print_vec(void* obj){
+    Self self = (Self)obj;
+    Vec vec = SKL_VALUE_DATA(self);
+    if(vec->len==0){
+        printf("[]");
+        return;
+    }
+    printf("[");
+    for(usize i=0; i < vec->len-1; i++){
+        skl_print(vec->data[i]);
+        printf(" ");
+    }
+    skl_print(vec->data[vec->len-1]);
+    printf("]");
 }
 
 // -*-
