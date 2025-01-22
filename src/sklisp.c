@@ -402,7 +402,9 @@ void skl_symbol_intern(Self self){
 
 // -*-
 void skl_symtab_pop(Self symtab){
-    //! @todo
+    skl_delete(SKL_SYMBOL_GET(symtab));
+    Symbol sym = (Symbol)SKL_VALUE_DATA(symtab);
+    sym->values--;
 }
 
 // -*-
