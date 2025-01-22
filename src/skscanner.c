@@ -470,8 +470,24 @@ static void _stream_push(Stream* stream){
 
 // -*-
 static Self _stream_pop(Stream* stream){
-    //! @todo
-    return NULL;
+    if(!stream->done && _stream_stack_height(stream) <= 1){
+        _stream_error(stream, "unbalanced parenthesis");
+        return sklisp.Error;
+    }
+    if(!stream->done && stream->state->dotpairMode == 1){
+        _stream_error(stream, "missing cdr object for dotted pair");
+        return sklisp.Error;
+    }
+    Self self = SKL_CDR(stream->state->head);
+    SKL_CDR(stream->state->head) = sklisp.Nil;
+    if(stream->state->vecMode){
+        stream->state--;
+        Self vec = skl_list_to_vec(self);
+        skl_delete(self);
+        return vec;
+    }
+    stream->state--;
+    return self;
 }
 
 // -*-
