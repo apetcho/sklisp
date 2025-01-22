@@ -43,9 +43,13 @@ void delete_mempool(Mempool pool){
 }
 
 // -*-
-void* mempool_alloc(Mempool mempool){
-    //! @todo
-    return NULL;
+void* mempool_alloc(Mempool pool){
+    if(pool->stack == pool->base){
+        _mempool_fill_stack(pool);
+    }
+    void* ptr = *(pool->stack);
+    pool->stack--;
+    return ptr;
 }
 
 // -*-
