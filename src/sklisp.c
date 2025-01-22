@@ -511,8 +511,17 @@ Self skl_vec_safe_get(const Self self, Self idx){
 
 // -*-
 Self skl_vec_concat(const Self lhs, const Self rhs){
-    //! @todo
-    return 0;
+    usize xlen = SKL_VECTOR_LEN(lhs);
+    usize ylen = SKL_VECTOR_LEN(rhs);
+    Self self = skl_new_vec(xlen+ylen, sklisp.Nil);
+    usize i = 0;
+    for(i=0; i < xlen; i++){
+        skl_vec_set(self, i, SKL_INC_RC(skl_vec_get(lhs, i)));
+    }
+    for(i=0; i < ylen; i++){
+        skl_vec_set(self, i+xlen, SKL_INC_RC(skl_vec_get(rhs, i)));
+    }
+    return self;
 }
 
 // -*-
