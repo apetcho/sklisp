@@ -314,7 +314,7 @@ typedef enum TypeKind {
 
 // -*-
 typedef struct {
-    void* (*alloc)(usize);      // *_create
+    void* (*alloc)(void);       // *_create
     void (*dealloc)(void*);     // *_destroy
     void (*print)(void*);
     u32 (*hash)(void*);

@@ -383,13 +383,13 @@ static void _print_float(void* obj){
 }
 
 // -*-
-Cons _new_cons(void){
-    return (Cons)mempool_alloc(sklisp.conspool);
+void* _new_cons(void){
+    return mempool_alloc(sklisp.conspool);
 }
 
 // -*-
-void _delete_cons(Cons self){
-    mempool_free(sklisp.conspool, (void*)self);
+void _delete_cons(void* self){
+    mempool_free(sklisp.conspool, self);
 }
 
 u32 _hash_cons(void* obj){
@@ -397,7 +397,7 @@ u32 _hash_cons(void* obj){
     return sklisp_hash(SKL_CAR(self)) ^ sklisp_hash(SKL_CDR(self));
 }
 
-void _print_const(void* obj){
+void _print_cons(void* obj){
     Self self = (Self)obj;
     fputc('(', stdout);
     Self ptr = self;
@@ -415,7 +415,6 @@ void _print_const(void* obj){
 /*
 static Trait _stringTrait;
 static Trait _symbolTrait;
-static Trait _consTrait;
 static Trait _funTrait;
 static Trait _sformTrait;
 static Trait _vecTrait;
@@ -434,6 +433,13 @@ static Trait _floatTrait = {
     .dealloc = NULL,
     .print = _print_float,
     .hash = _hash_float,
+};
+
+static Trait _consTrait = {
+    .alloc = _new_cons,
+    .dealloc = _delete_cons,
+    .print = _print_cons,
+    .hash = _hash_cons,
 };
 
 
