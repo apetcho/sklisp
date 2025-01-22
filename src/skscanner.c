@@ -339,9 +339,25 @@ Self skl_apply(Self fun, Self argv){
 // -*----------------------------------------------------------------*-
 // -*- sklisp::Scanner                                              -*-
 // -*----------------------------------------------------------------*-
-static void _stream_error(Stream* stream, char* str);
-static void _stream_add_pop(Stream* stream);
-static void _stream_reset(Stream* stream);
+static void _stream_error(Stream* stream, char* str); // XXX
+static void _stream_add_pop(Stream* stream); // XXX
+static void _stream_reset(Stream* stream); // XXX
+static int _stream_getc(Stream* stream); // XXX
+static void _stream_putc(Stream* stream); // XXX
+static void _stream_consume_whitespace(Stream* stream); // XXX
+static void _stream_consume_line(Stream* stream); // XXX
+static usize _stream_stack_height(Stream* stream); // XXX
+static void _stream_push(Stream* stream); // XXX
+static Self _stream_pop(Stream* stream); // XXX
+static void _stream_reset_buf(Stream* stream); // XXX
+static bool _stream_list_is_empty(Stream* stream); // XXX
+static void _stream_print_ps1(Stream* stream); // XXX
+static void _stream_print_ps2(Stream* stream); // XXX
+static void _stream_add(Stream* stream, Self self); // XXX
+static void _stream_buf_append(Stream* stream, char c); // XXX
+static int _stream_buf_read(Stream* stream, char* halt); // XXX
+static Self _stream_parse(Stream* stream); // XXX
+static Self _stream_parse_atom(Stream* stream); // XXX
 
 
 static const char* _sklAtomchars = (
@@ -380,7 +396,123 @@ Stream* new_stream(FILE* fp, char* str, char* name, int interactive){
 
 // -*-
 void delete_stream(Stream* stream){
+    _stream_reset(stream);
+    skl_free(stream->buf);
+    skl_free(stream->readbuf);
+    skl_free(stream->base);
+    skl_free(stream);
+}
+
+// -*-
+static int _stream_getc(Stream* stream){
+    int c = EOF;
+    if(stream->readbufp > stream->readbuf){
+        c = *(stream->readbufp);
+        stream->readbufp--;
+        return c;
+    }
+    if(stream->src != NULL){
+        c = *(stream->srcp);
+        if(c != '\0'){ stream->srcp++; }
+        else{ return EOF; }
+    }
+    return c;
+}
+
+// -*-
+static void _stream_putc(Stream* stream){
     //! @todo
+}
+
+// -*-
+static void _stream_consume_whitespace(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static void _stream_consume_line(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static usize _stream_stack_height(Stream* stream){
+    //! @todo
+    return 0;
+}
+
+// -*-
+static void _stream_push(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static Self _stream_pop(Stream* stream){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+static void _stream_reset_buf(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static void _stream_reset(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static void _stream_error(Stream* stream, char* str){
+    //! @todo
+}
+
+// -*-
+static bool _stream_list_is_empty(Stream* stream){
+    //! @todo
+    return false;
+}
+
+// -*-
+static void _stream_print_ps1(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static void _stream_print_ps2(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static void _stream_add(Stream* stream, Self self){
+    //! @todo
+}
+
+// -*-
+static void _stream_add_pop(Stream* stream){
+    //! @todo
+}
+
+// -*-
+static void _stream_buf_append(Stream* stream, char c){
+    //! @todo
+}
+
+// -*-
+static int _stream_buf_read(Stream* stream, char* halt){
+    //! @todo
+    return 0;
+}
+
+// -*-
+static Self _stream_parse(Stream* stream){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+static Self _stream_parse_atom(Stream* stream){
+    //! @todo
+    return NULL;
 }
 
 // -*-
