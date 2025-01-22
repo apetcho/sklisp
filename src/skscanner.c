@@ -781,8 +781,24 @@ Self stream_read_sexp(Stream* stream){
 
 // -*-
 int stream_load_file(FILE* fp, char* filename, int interactive){
-    //! @todo
-    return 0;
+    if(fp == NULL){
+        fp = fopen(filename, "r");
+        if(fp==NULL){ return 0; }
+    }
+    Stream* stream = new_stream(fp, NULL, filename, interactive);
+    while(!stream->eof){
+        Self sexp = stream_read_sexp(stream);
+        if(sexp != sklisp.Error){
+            Self self = skl_top_eval(sexp);
+            if(stream->interactive && self != sklisp.Error){
+                skl_println(self);
+            }
+            skl_delete(sexp);
+            skl_delete(self);
+        }
+    }
+    delete_stream(stream);
+    return 1;
 }
 
 // -*-
