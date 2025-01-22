@@ -3,6 +3,47 @@
 #include<errno.h>
 #include<assert.h>
 
+
+// -*-----------*-
+// -*- Mempool -*-
+// -*-----------*-
+// -*-
+static void _mempool_fill_stack(Mempool pool){
+    u8* ptr = skl_alloc(pool->len - (pool->stack - pool->base)*pool->itemsize);
+    for(; pool->stack < pool->base+pool->len; pool->stack++, ptr+=pool->itemsize){
+        pool->discard(ptr);
+        *(pool->stack) = (void*)ptr;
+    }
+    pool->stack--;
+}
+
+// -*-
+static void _mempool_resize_stack(Mempool pool){
+    //! @todo
+}
+
+// -*-
+Mempool new_mempool(usize itemsize, void (*discard)(void*)){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+void delete_mempool(Mempool mempool){
+    //! @todo
+}
+
+// -*-
+void* mempool_alloc(Mempool mempool){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+void mempool_free(Mempool mempool, void* item){
+    //! @todo
+}
+
 // -*--------------------------*-
 // -*- Object && Fun && SForm -*-
 // -*--------------------------*-

@@ -288,6 +288,7 @@ struct mempool {
     usize itemsize;
     void **stack;
     void **base;
+    usize len;
     void (*discard)(void*);
 };
 
