@@ -255,6 +255,56 @@ double skl_to_float(Self self){
 // -*--------*-
 // -*- Cons -*-
 // -*--------*-
+// -*-
+Self skl_list_expect_len(Self self, Self err, int len){
+    int n = 0;
+    Self ptr = self;
+    while(ptr != sklisp.Nil){
+        n++;
+        ptr = SKL_CDR(ptr);
+        if(!SKL_IS_LIST(ptr)){
+            skl_delete(err);
+            SKL_THROW(sklisp.InvalidListError, self);
+        }
+        if(n > len){
+            SKL_THROW(sklisp.InvalidArgNumberError, err);
+        }
+    }
+    if(n != len){
+        SKL_THROW(sklisp.InvalidArgNumberError, err);
+    }
+    return sklisp.True;
+}
+
+// -*-
+Self skl_list_expect_min_len(Self self, Self err, int len){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_list_expect_max_len(Self self, Self err, int len){
+    //! @todo
+    return 0;
+}
+
+// -*-
+bool skl_is_function_form(Self self){
+    //! @todo
+    return 0;
+}
+
+// -*-
+bool skl_is_var_list(Self self){
+    //! @todo
+    return 0;
+}
+
+// -*-
+Self skl_is_proper_list(Self self){
+    //! @todo
+    return 0;
+}// properlistp
 
 
 // -*- String -*-

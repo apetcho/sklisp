@@ -42,7 +42,7 @@ typedef Self (*Fun)(Self);
 // #SKL_CDR(obj)                                            // ::CDR
 #define SKL_CDR(self)           ((Cons)SKL_VALUE_DATA(self))->cdr
 // #SKL_IS_LIST(obj)                                        // ::LISTP
-#define SKL_IS_LIST(self)       ((self)->kind==CONS || (self)==sklisp->Nil)
+#define SKL_IS_LIST(self)       ((self)->kind==CONS || (self)==sklisp.Nil)
 // #SKL_IS_PAIR(obj)                                        // ::PAIRP
 #define SKL_IS_PAIR(self)       ((self)->kind==CONS && !SKL_IS_LIST(SKL_CDR(self)))
 // #SKL_INTEGER_PTR                                         // ::OINT
