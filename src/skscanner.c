@@ -309,6 +309,29 @@ Self skl_eval(Self self){
 
 // -*-
 Self skl_apply(Self fun, Self argv){
-    //! @todo
-    return 0;
+    if(fun->kind==BUILTIN || fun->kind==SPECIAL){
+        // call the builtin function
+        Fun fn = SKL_VALUE_FUN(fun);
+        Self result = fn(argv);
+        return result;
+    }else{
+        // list form
+        Self params = SKL_CAR(SKL_CDR(fun));
+        Self args = skl_bind_args(params, argv);
+        if(args == sklisp.Error){
+            sklisp.AttachError = SKL_INC_RC(argv);
+            return sklisp.Error;
+        }
+        Self result = NULL;
+        if(SKL_CAR(fun)==sklisp.lambda){
+            result = skl_eval_body(SKL_CDR(SKL_CDR(fun)));
+        }else{
+            Self body = skl_eval_body(SKL_CDR(SKL_CDR(fun)));
+            result = skl_eval(body);
+            skl_delete(body);
+        }
+        skl_unbind_args(params);
+        return result;
+    }
+    return sklisp.Nil;
 }
