@@ -166,8 +166,8 @@ static Self _fn_mul(Self self){
 
 // -*-
 static Self _fn_sub(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Perform negation or substraction operation.");
+    return _arithm(SUB, self);
 }
 
 // -*-
