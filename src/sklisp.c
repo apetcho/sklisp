@@ -613,8 +613,14 @@ Self skl_channel_receive(Self self){
 
 // -*-
 Self skl_channel_send(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Send an object to the parent channel (i.e process)");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("send"));
+    Self obj = SKL_CAR(self);
+    if(sklisp.parentChannel == NULL || sklisp.parentChannel == sklisp.Nil){
+        SKL_THROW(sklisp.ChannelSendError, SKL_INC_RC(obj));
+    }
+    skl_println(obj);
+    return sklisp.True;
 }
 
 

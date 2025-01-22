@@ -588,6 +588,7 @@ struct SKLisp{
     Self IndexError;
     Self InvalidChannelError;
     Self ExitFailure;
+    Self ChannelSendError;
 };
 
 // -*-
