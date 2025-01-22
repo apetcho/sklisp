@@ -509,7 +509,15 @@ static void _stream_reset(Stream* stream){
 
 // -*-
 static void _stream_error(Stream* stream, char* str){
-    //! @todo
+    char buffer[128] = {0};
+    snprintf(
+        buffer, sizeof(buffer)-1, "%s:%d: %s",
+        stream->name, stream->lineno, str
+    );
+    fputs(buffer, stderr);
+    _stream_skip_line(stream);
+    _stream_reset(stream);
+    stream->error = 1;
 }
 
 // -*-
