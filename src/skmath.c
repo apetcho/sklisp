@@ -160,8 +160,8 @@ static Self _fn_add(Self self){
 
 // -*-
 static Self _fn_mul(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute the producte of two or more numbers");
+    return _arithm(MUL, self);
 }
 
 // -*-
