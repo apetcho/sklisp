@@ -249,13 +249,66 @@ Self skl_top_eval(Self self){
 }
 
 // -*-
-Self skl_apply(Self fun, Self argv){
-    //! @todo
-    return 0;
+Self skl_eval(Self self){
+    // check for interrupt
+    if(_interrupt){
+        _interrupt = false;
+        SKL_THROW(sklisp.InterruptError, skl_new_string(skl_strdup("interrupted")));
+    }
+
+    if(self->kind != CONS && self->kind != SYMBOL){
+        return SKL_INC_RC(self);
+    }else if(self->kind == SYMBOL){
+        return SKL_INC_RC(SKL_SYMBOL_GET(self));
+    }
+
+    // Fint the function
+    Self fun = skl_eval(SKL_CAR(self));
+    SKL_CHECK(fun);
+    Self extra = sklisp.Nil;
+    if(SKL_IS_VECTOR(fun)){
+        extra = self = skl_new_cons(SKL_INC_RC(extra), SKL_INC_RC(self));
+        fun = skl_eval(skl_new_symbol("vfunc"));
+        if(fun == sklisp.Error){
+            skl_delete(extra);
+            return sklisp.Error;
+        }
+    }
+    if(!SKL_IS_CALLABLE(fun)){
+        skl_delete(fun);
+        SKL_THROW(sklisp.VoidFunError, SKL_INC_RC(SKL_CAR(self)));
+    }
+
+    // check the stack
+    if(++sklisp.stackDepth >= sklisp.maxStackDepth){
+        long num = sklisp.stackDepth;
+        sklisp.stackDepth--;
+        SKL_THROW(skl_new_symbol("max-eval-depth"), skl_new_integer(num));
+    }
+
+    // handle argument list
+    Self argv = SKL_CDR(self);
+    if(fun->kind==BUILTIN || (fun->kind==CONS && (SKL_CAR(fun)==sklisp.lambda))){
+        argv = _skl_eval_list(argv);
+        if(argv == sklisp.Error){
+            skl_delete(fun);
+            skl_delete(extra);
+            return sklisp.Error;
+        }
+    }else{
+        SKL_INC_RC(argv);
+    }
+
+    Self result = skl_apply(fun, argv);
+    sklisp.stackDepth--;
+    skl_delete(fun);
+    skl_delete(argv);
+    skl_delete(extra);
+    return result;
 }
 
 // -*-
-Self skl_eval(Self self){
+Self skl_apply(Self fun, Self argv){
     //! @todo
-    return NULL;
+    return 0;
 }
