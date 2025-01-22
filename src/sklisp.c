@@ -216,8 +216,11 @@ Self skl_new_integer_from_cstr(const char* from){
 
 // -*-
 Self skl_new_integr(long num){
-    //! @todo
-    return 0;
+    Self self = skl_new(INTEGER);
+    mpz_t* data = SKL_VALUE_DATA(self);
+    mpz_init(*data);
+    mpz_set_ui(*data, num);
+    return self;
 }
 
 // -*-
