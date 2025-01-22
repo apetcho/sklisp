@@ -570,7 +570,14 @@ static void _stream_add_pop(Stream* stream){
 
 // -*-
 static void _stream_buf_append(Stream* stream, char c){
-    //! @todo
+    if(stream->bufp==stream->buf + stream->buflen){
+        stream->buflen *= 2;
+        stream->buf = skl_realloc(stream->buf, stream->buflen+1);
+        stream->bufp = stream->buf + stream->buflen / 2;
+    }
+    *(stream->bufp) = c;
+    *(stream->bufp + 1) = '\0';
+    stream->bufp++;
 }
 
 // -*-
