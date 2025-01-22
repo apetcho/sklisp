@@ -104,7 +104,8 @@ static void _handle_interrupt(int sig){
     SKL_UNUSED(sig);
     if(!_interrupt && sklisp.interactiveMode){
         _interrupt = true;
-        signal(SIGINT, &_handle_interrupt);
+        signal(SIGINT, _handle_interrupt);
+        // exit(EXIT_SUCCESS);
     }else{
         signal(SIGINT, SIG_DFL);
         raise(SIGINT);
@@ -113,7 +114,8 @@ static void _handle_interrupt(int sig){
 
 // -*-
 void skl_init(void){
-    //! @todo
+    // install interrupt handler
+    signal(SIGINT, _handle_interrupt);
 }// i.e eval_init
 
 // -*-

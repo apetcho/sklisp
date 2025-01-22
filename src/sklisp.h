@@ -536,8 +536,6 @@ struct SKLisp{
     Trait* strTrait;
     Trait* symTrait;
     Trait* consTrait;
-    // Trait* funTrait;
-    // Trait* sformTrait;
     Trait* channelTrait;
     Trait* vecTrait;
     // -*------------*-

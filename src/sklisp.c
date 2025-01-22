@@ -859,13 +859,39 @@ static void _vec_mempool_discard(void* obj){
 }
 
 static void _init_symtab(void){
+    // -*-
     sklisp.symtab = new_dict(2048, NULL);
+    // -*-
     sklisp.Nil = skl_new_symbol("nil");
     *((Symbol)SKL_VALUE_DATA(sklisp.Nil))->values = sklisp.Nil;
     SKL_SYMBOL_PROPS(sklisp.Nil) |= SKL_SYMBOL_CONSTANT;
     sklisp.True = skl_new_symbol("t");
     SKL_SYMBOL_PROPS(sklisp.True) |= SKL_SYMBOL_CONSTANT;
     SKL_SYMBOL_UPDATE(sklisp.True, sklisp.True);
+
+    // regular evaluation symbols
+    sklisp.lambda = skl_new_symbol("lambda");
+    sklisp.macro = skl_new_symbol("macro");
+    sklisp.quote = skl_new_symbol("quote");
+    sklisp.rest = skl_new_symbol("&rest");
+    sklisp.optional = skl_new_symbol("&optional");
+    sklisp.docstr = skl_new_symbol("doc-string");
+
+    // error symbols
+    sklisp.Error = skl_new_uninterned_symbol("sklisp-error");
+    SKL_SYMBOL_UPDATE(sklisp.Error, sklisp.Error);
+    sklisp.ThrownError = sklisp.Nil;
+    sklisp.AttachError = sklisp.Nil;
+    sklisp.VoidFunError = skl_new_symbol("void-function-error");
+    sklisp.InvalidArgNumberError = skl_new_symbol("invalid-arg-number-error");
+    sklisp.TypeError = skl_new_symbol("type-error");
+    sklisp.InvalidListError = skl_new_symbol("invalid-list-error");
+    sklisp.InvalidListEndError = skl_new_symbol("invalid-list-ending-error");
+    sklisp.InterruptError = skl_new_symbol("interrupt-error");
+    sklisp.IndexError = skl_new_symbol("index-out-of-range-error");
+    sklisp.InvalidChannelError = skl_new_symbol("invalid-channel-error");
+    sklisp.ExitFailure = skl_new_symbol("exit-failure");
+    sklisp.ChannelSendError = skl_new_symbol("channel-send-error");
 }
 
 // -*-
@@ -892,6 +918,14 @@ void sklisp_initialize(void){
     sklisp.maxStackDepth = 20000;
     sklisp.interactiveMode = 0;
     //! @todo
+    /*
+    char* prompt;
+    // SKLISP_PATH = "${HOME}/.sklisp"
+    char* path;                             // -* wisproot -*-
+    skl_init_builtins();
+    skl_init_math();
+    skl_init();
+    */
 }
 
 /*
