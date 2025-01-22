@@ -369,8 +369,14 @@ void skl_string_repr(Self self){
 
 // -*-
 Self skl_string_cat(Self lhs, Self rhs){
-    //! @todo
-    return NULL;
+    String xstr = (String)SKL_VALUE_DATA(lhs);
+    String ystr = (String)SKL_VALUE_DATA(rhs);
+    usize len = xstr->len + ystr->len;
+    char* str = skl_alloc(len+1);
+    memcpy(str, xstr->raw, xstr->len);
+    memcpy(str+xstr->len, ystr->raw, ystr->len);
+    str[len] = '\0';
+    return skl_new_string_with_len(str, len);
 }
 
 // -*- Symbol -*-
