@@ -541,7 +541,23 @@ static void _stream_print_ps2(Stream* stream){
 
 // -*-
 static void _stream_add(Stream* stream, Self self){
-    //! @todo
+    if(stream->state->dotpairMode == 2){
+        _stream_error(stream, "invalid dotted pair syntax - too many objects");
+        return;
+    }
+    if(!stream->state->dotpairMode){
+        SKL_CDR(stream->state->tail) = skl_new_cons(self, sklisp.Nil);
+        stream->state->tail = SKL_CDR(stream->state->tail);
+        if(stream->state->quoteMode){
+            _stream_add_pop(stream);
+        }
+    }else{
+        SKL_CDR(stream->state->tail) = self;
+        stream->state->dotpairMode = 2;
+        if(stream->state->quoteMode){
+            _stream_add_pop(stream);
+        }
+    }
 }
 
 // -*-
