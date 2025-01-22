@@ -441,7 +441,11 @@ static void _stream_skip_whitespace(Stream* stream){
 
 // -*-
 static void _stream_skip_line(Stream* stream){
-    //! @todo
+    int c = _stream_getc(stream);
+    while(c != '\n' && c != EOF){
+        c = _stream_getc(stream);
+    }
+    if(c != '\n'){ _stream_putc(stream, c); }
 }
 
 // -*-
