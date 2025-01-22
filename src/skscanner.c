@@ -180,17 +180,58 @@ Self skl_eval_body(Self body){
 }
 
 // -*-
+Self skl_bind_args(Self vars, Self argv){
+    int optMode = 0;
+    int len = 0;
+    Self _vars = vars;
+    while(vars != sklisp.Nil){
+        Self var = SKL_CAR(vars);
+        if(var == sklisp.optional){
+            // Turn on optional mode and continue
+            optMode = 1;
+            vars = SKL_CDR(vars);
+            continue;
+        }
+        if(var == sklisp.rest){
+            // Assign the rest of the list and finish
+            vars = SKL_CDR(vars);
+            skl_symtab_push(SKL_CAR(vars), argv);
+            argv = sklisp.Nil;
+            break;
+        }else if(!optMode && argv == sklisp.Nil){
+            while(len > 0){
+                skl_symtab_pop(SKL_CAR(_vars));
+                _vars = SKL_CDR(_vars);
+                len--;
+            }
+            SKL_THROW(sklisp.InvalidArgNumberError, sklisp.Nil);
+        }else if(optMode && argv == sklisp.Nil){
+            skl_symtab_push(var, sklisp.Nil);
+        }else{
+            Self arg = SKL_CAR(argv);
+            skl_symtab_push(var, arg);
+            len++;
+        }
+        vars = SKL_CDR(vars);
+        if(argv != sklisp.Nil){
+            argv = SKL_CDR(argv);
+        }
+    }
+
+    // argv should be consumed by now
+    if(argv != sklisp.Nil){
+        skl_unbind_args(argv);
+        SKL_THROW(sklisp.InvalidArgNumberError, sklisp.Nil);
+    }
+    return sklisp.True;
+}// i.e assign_args
+
+// -*-
 Self skl_top_eval(Self self){
     //! @todo
     return 0;
 }
 
-
-// -*-
-Self skl_bind_args(Self vars, Self argv){
-    //! @todo
-    return 0;
-}// i.e assign_args
 
 // -*-
 Self skl_unbind_args(Self vars){
