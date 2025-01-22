@@ -526,8 +526,13 @@ Self skl_vec_concat(const Self lhs, const Self rhs){
 
 // -*-
 Self skl_vec_slice(const Self self, int start, int end){
-    //! @todo
-    return 0;
+    Vec vec = SKL_VALUE_DATA(self);
+    if(end==-1){ end = vec->len - 1; }
+    Self obj = skl_new_vec(1+ end - start, sklisp.Nil);
+    for(int i= start; i <= end; i++){
+        skl_vec_set(obj, i - start, SKL_INC_RC(skl_vec_get(self, i)));
+    }
+    return obj;
 }
 
 // -*- Channel -*-
