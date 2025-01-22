@@ -443,8 +443,15 @@ void skl_symtab_push(Self symtab, Self self){
 // -*-------*-
 // -*-
 Self skl_new_vec(usize len, Self init){
-    //! @todo
-    return 0;
+    Self self = skl_new(VEC);
+    Vec vec = SKL_VALUE_DATA(self);
+    vec->len = len;
+    if(len==0){ len = 1; }
+    vec->data = skl_alloc(sizeof(Self*)*len);
+    for(usize i=0; i < vec->len; i++){
+        vec->data[i] = SKL_INC_RC(init);
+    }
+    return self;
 }
 
 // -*-
