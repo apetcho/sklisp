@@ -466,8 +466,8 @@ static void _print_str(void* obj){
 }
 
 static u32 _hash_str(void* obj){
-    //! @todo
-    return 0;
+    Self self = (Self)obj;
+    return skl_hash(SKL_STRING(self), SKL_STRING_LEN(self));
 }
 
 /*
