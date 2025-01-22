@@ -194,7 +194,53 @@ static Self _num_cmp(CmpOp op, Self self){
         [GE] = "ge",
     };
     SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol(ops[op]));
-    return NULL;
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_NUMBER(lhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(lhs));
+    }
+    if(!SKL_IS_NUMBER(rhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(rhs));
+    }
+    int result = 0;
+    int invr = 1;
+    if(SKL_IS_NUMBER(lhs) && SKL_IS_INTEGER(rhs)){
+        result = mpz_cmp(SKL_DEREF_INTEGER(lhs), SKL_DEREF_INTEGER(rhs));
+    }else if(SKL_IS_FLOAT(lhs) && SKL_IS_FLOAT(rhs)){
+        result = mpf_cmp(SKL_DEREF_FLOAT(lhs), SKL_DEREF_FLOAT(rhs));
+    }else if(SKL_IS_INTEGER(lhs) && SKL_IS_FLOAT(rhs)){
+        // swap and handle below
+        Self tmp = rhs;
+        rhs = lhs;
+        lhs = tmp;
+        invr = -1;
+    }
+    if(SKL_IS_FLOAT(lhs) && SKL_IS_INTEGER(rhs)){
+        // convert down
+        Self val = skl_new_float(0.0);
+        mpf_set_z(SKL_DEREF_FLOAT(val), SKL_DEREF_INTEGER(rhs));
+        result = mpf_cmp(SKL_DEREF_FLOAT(lhs),SKL_DEREF_FLOAT(val));
+        skl_delete(val);
+    }
+    result *= invr;
+    switch(op){
+    case EQ:
+        result = (0 == result);
+        break;
+    case LT:
+        result = (result < 0);
+        break;
+    case LE:
+        result = (result <= 0);
+        break;
+    case GT:
+        result = (result > 0);
+        break;
+    case GE:
+        result = (result >= 0);
+        break;
+    }
+    return result ? sklisp.True : sklisp.Nil;
 }
 
 // -*-
