@@ -669,13 +669,17 @@ static void _print_vec(void* obj){
 
 // -*-
 static u32 _hash_vec(void* obj){
-    //! @todo
-    return 0;
+    u32 result = 0;
+    Self self = (Self)obj;
+    Vec vec = SKL_VALUE_DATA(self);
+    for(usize i=0; i < vec->len; i++){
+        result ^= sklisp_hash(vec->data[i]);
+    }
+    return result;
 }
 
 /*
-static Trait _funTrait;
-static Trait _sformTrait;
+static Trait _vecTrait;
 static Trait _channelTrait;
 */
 
@@ -714,6 +718,12 @@ static Trait _symbolTrait = {
     .hash = _hash_symbol,
 };
 
+static Trait _vecTrait = {
+    .alloc = _new_vec,
+    .dealloc = _dealloc_vec,
+    .print = _print_vec,
+    .hash = _hash_vec,
+};
 
 // -*----------------------------------------------------------------*-
 // -*- Mempool initializers                                         -*-
@@ -765,6 +775,7 @@ void sklisp_initialize(void){
     sklisp.floatTrait = &_floatTrait;
     sklisp.strTrait = &_stringTrait;
     sklisp.symTrait = &_symbolTrait;
+    sklisp.vecTrait = &_vecTrait;
     // -*-
     sklisp.mempool = new_mempool(sizeof(struct object), _object_mempool_discard);
     sklisp.conspool = new_mempool(sizeof(struct cons), _cons_mempool_discard);
