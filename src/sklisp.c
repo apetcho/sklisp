@@ -248,8 +248,7 @@ long skl_to_integer(Self self){
 
 // -*-
 double skl_to_float(Self self){
-    //! @todo
-    return 0;
+    return mpf_get_d(SKL_DEREF_FLOAT(self));
 }
 
 // -*- Cons -*-
