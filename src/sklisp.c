@@ -234,8 +234,11 @@ Self skl_new_float_from_cstr(const char* from){
 
 // -*-
 Self skl_new_float(double num){
-    //! @todo
-    return 0;
+    Self self = skl_new(FLOAT);
+    mpf_t* data = SKL_VALUE_DATA(self);
+    mpf_init2(*data, 64);
+    mpf_set_d(*data, num);
+    return self;
 }
 
 // -*-
