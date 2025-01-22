@@ -339,25 +339,25 @@ Self skl_apply(Self fun, Self argv){
 // -*----------------------------------------------------------------*-
 // -*- sklisp::Scanner                                              -*-
 // -*----------------------------------------------------------------*-
-static void _stream_error(Stream* stream, char* str); // XXX
-static void _stream_add_pop(Stream* stream); // XXX
-static void _stream_reset(Stream* stream); // XXX
+static void _stream_error(Stream* stream, char* str);
+static void _stream_add_pop(Stream* stream);
+static void _stream_reset(Stream* stream);
 static int _stream_getc(Stream* stream);
 static void _stream_putc(Stream* stream, int c);
-static void _stream_consume_whitespace(Stream* stream); // XXX
-static void _stream_consume_line(Stream* stream); // XXX
-static usize _stream_stack_height(Stream* stream); // XXX
-static void _stream_push(Stream* stream); // XXX
-static Self _stream_pop(Stream* stream); // XXX
-static void _stream_reset_buf(Stream* stream); // XXX
-static bool _stream_list_is_empty(Stream* stream); // XXX
-static void _stream_print_ps1(Stream* stream); // XXX
-static void _stream_print_ps2(Stream* stream); // XXX
-static void _stream_add(Stream* stream, Self self); // XXX
-static void _stream_buf_append(Stream* stream, char c); // XXX
-static int _stream_buf_read(Stream* stream, char* halt); // XXX
-static Self _stream_parse(Stream* stream); // XXX
-static Self _stream_parse_atom(Stream* stream); // XXX
+static void _stream_skip_whitespace(Stream* stream);
+static void _stream_skip_line(Stream* stream);
+static usize _stream_stack_height(Stream* stream);
+static void _stream_push(Stream* stream);
+static Self _stream_pop(Stream* stream);
+static void _stream_reset_buf(Stream* stream);
+static bool _stream_list_is_empty(Stream* stream);
+static void _stream_print_ps1(Stream* stream);
+static void _stream_print_ps2(Stream* stream);
+static void _stream_add(Stream* stream, Self self);
+static void _stream_buf_append(Stream* stream, char c);
+static int _stream_buf_read(Stream* stream, char* halt);
+static Self _stream_parse(Stream* stream);
+static Self _stream_parse_atom(Stream* stream);
 
 
 static const char* _sklAtomchars = (
@@ -431,12 +431,16 @@ static void _stream_putc(Stream* stream, int c){
 }
 
 // -*-
-static void _stream_consume_whitespace(Stream* stream){
-    //! @todo
+static void _stream_skip_whitespace(Stream* stream){
+    int c = _stream_getc(stream);
+    while(strchr(" \t\r", c) != NULL){
+        c = _stream_getc(stream);
+    }
+    if(c != '\n'){ _stream_putc(stream, c); }
 }
 
 // -*-
-static void _stream_consume_line(Stream* stream){
+static void _stream_skip_line(Stream* stream){
     //! @todo
 }
 
