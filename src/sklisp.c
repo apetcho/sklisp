@@ -53,8 +53,13 @@ void* mempool_alloc(Mempool pool){
 }
 
 // -*-
-void mempool_free(Mempool mempool, void* item){
-    //! @todo
+void mempool_free(Mempool pool, void* item){
+    pool->stack++;
+    if(pool->stack==pool->base+pool->len){
+        _mempool_resize_stack(pool);
+    }
+    *(pool->stack) = item;
+    pool->discard(item);
 }
 
 // -*--------------------------*-
