@@ -168,16 +168,23 @@ Self skl_eval(Self self){
 }
 
 // -*-
+Self skl_eval_body(Self body){
+    Self result = sklisp.Nil;
+    while(body != sklisp.Nil){
+        skl_delete(result);
+        result = skl_eval(SKL_CAR(body));
+        SKL_CHECK(result);
+        body = SKL_CDR(body);
+    }
+    return result;
+}
+
+// -*-
 Self skl_top_eval(Self self){
     //! @todo
     return 0;
 }
 
-// -*-
-Self skl_eval_body(Self self){
-    //! @todo
-    return 0;
-}
 
 // -*-
 Self skl_bind_args(Self vars, Self argv){
