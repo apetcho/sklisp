@@ -154,8 +154,8 @@ static Self _arithm(ArithOp op, Self self){
 
 // -*-
 static Self _fn_add(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute the sum of two or more numbers");
+    return _arithm(ADD, self);
 }
 
 // -*-
