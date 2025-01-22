@@ -595,7 +595,12 @@ static void* _new_vec(void){
 
 // -*-
 static void _dealloc_vec(void* obj){
-    //! @todo 
+    Vec vec = (Vec)obj;
+    for(usize i=0; i < vec->len; i++){
+        skl_delete(vec->data[i]);
+    }
+    skl_free(vec->data);
+    mempool_free(sklisp.vecpool, (void*)vec);
 }
 
 // -*-
