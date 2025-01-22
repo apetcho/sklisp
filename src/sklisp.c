@@ -295,6 +295,16 @@ static void _print_float(void* obj){
     gmp_printf("%.Ff", SKL_FLOAT_PTR(self));
 }
 
+// -*-
+Cons _new_cons(void){
+    return (Cons)mempool_alloc(sklisp.conspool);
+}
+
+// -*-
+void _delete_cons(Cons self){
+    mempool_free(sklisp.conspool, (void*)self);
+}
+
 /*
 static Trait _stringTrait;
 static Trait _symbolTrait;
@@ -336,14 +346,6 @@ static void _cons_mempool_discard(void* obj){
     self->car = sklisp.Nil;
     self->cdr = sklisp.Nil;
 }
-
-
-/*
-static Mempool _mempool;
-static Mempool _conspool;
-static Mempool _strpool;
-static Mempool _vecpool;
-*/
 
 // -*-
 void sklisp_initialize(void){
