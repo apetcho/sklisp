@@ -338,8 +338,9 @@ bool skl_is_var_list(Self self){
 
 // -*-
 Self skl_is_proper_list(Self self){
-    //! @todo
-    return 0;
+    if(self == sklisp.Nil){ return sklisp.True; }
+    if(!SKL_IS_CONS(self)){ return sklisp.Nil; }
+    return skl_is_proper_list(SKL_CDR(self));
 }// properlistp
 
 
