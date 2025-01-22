@@ -227,17 +227,20 @@ Self skl_bind_args(Self vars, Self argv){
 }// i.e assign_args
 
 // -*-
+void skl_unbind_args(Self vars){
+    if(vars == sklisp.Nil){ return; }
+    Self var = SKL_CDR(vars);
+    if(var != sklisp.rest && var != sklisp.optional){
+        skl_symtab_pop(var);
+    }
+    skl_unbind_args(SKL_CDR(vars));
+}// i.e unassign_args
+
+// -*-
 Self skl_top_eval(Self self){
     //! @todo
     return 0;
 }
-
-
-// -*-
-Self skl_unbind_args(Self vars){
-    //! @todo
-    return 0;
-}// i.e unassign_args
 
 // -*-
 Self skl_apply(Self fun, Self argv){

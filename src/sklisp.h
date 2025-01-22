@@ -496,7 +496,7 @@ Self skl_eval(Self self);
 Self skl_top_eval(Self self);
 Self skl_eval_body(Self self);
 Self skl_bind_args(Self vars, Self argv);           // i.e assign_args
-Self skl_unbind_args(Self vars);                    // i.e unassign_args
+void skl_unbind_args(Self vars);                    // i.e unassign_args
 Self skl_apply(Self fun, Self argv);
 
 /*
