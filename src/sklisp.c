@@ -314,8 +314,8 @@ Self skl_list_expect_max_len(Self self, Self err, int len){
 
 // -*-
 bool skl_is_function_form(Self self){
-    //! @todo
-    return 0;
+    if(!SKL_IS_LIST(SKL_CAR(self))){ return false; }
+    return skl_is_var_list(SKL_CAR(self));
 }
 
 // -*-
