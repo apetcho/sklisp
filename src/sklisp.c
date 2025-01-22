@@ -347,12 +347,31 @@ Self skl_is_proper_list(Self self){
 // -*----------*-
 // -*- String -*-
 // -*----------*-
-/*
-Self skl_new_string_with_len(const char* cstr, usize len);
-Self skl_new_string(const char* str);
-void skl_string_genp(Self self);
-Self skl_string_cat(Self lhs, Self rhs);
-*/
+// -*-
+Self skl_new_string_with_len(const char* cstr, usize len){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+Self skl_new_string(const char* str){
+    //! @todo
+    return NULL;
+}
+
+// -*-
+void skl_string_repr(Self self){
+    String str = (String)SKL_VALUE_DATA(self);
+    if(str->repr == NULL){
+        str->repr = skl_handle_str_to_lexer(str->raw);
+    }
+}
+
+// -*-
+Self skl_string_cat(Self lhs, Self rhs){
+    //! @todo
+    return NULL;
+}
 
 // -*- Symbol -*-
 // -*- Vec -*-

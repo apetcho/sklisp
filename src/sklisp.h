@@ -408,7 +408,7 @@ struct str {
 };
 Self skl_new_string_with_len(const char* cstr, usize len);
 Self skl_new_string(const char* str);
-void skl_string_genp(Self self);
+void skl_string_repr(Self self);
 Self skl_string_cat(Self lhs, Self rhs);
 
 /*
