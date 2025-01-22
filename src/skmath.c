@@ -257,8 +257,8 @@ static Self _fn_num_lt(Self self){
 
 // -*-
 static Self _fn_num_le(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compare two numbers by <=.");
+    return _num_cmp(LE, self);
 }
 
 // -*-
