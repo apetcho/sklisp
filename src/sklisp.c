@@ -215,7 +215,7 @@ Self skl_new_integer_from_cstr(const char* from){
 }
 
 // -*-
-Self skl_new_integr(long num){
+Self skl_new_integer(long num){
     Self self = skl_new(INTEGER);
     mpz_t* data = SKL_VALUE_DATA(self);
     mpz_init(*data);
@@ -225,8 +225,11 @@ Self skl_new_integr(long num){
 
 // -*-
 Self skl_new_float_from_cstr(const char* from){
-    //! @todo
-    return 0;
+    Self self = skl_new(FLOAT);
+    mpf_t* data = SKL_VALUE_DATA(self);
+    mpf_init2(*data, 256);
+    mpf_set_str(*data, from, 10);
+    return self;
 }
 
 // -*-

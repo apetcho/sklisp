@@ -398,7 +398,7 @@ static {
 // -*- number.h -*-
 // -*------------*-
 Self skl_new_integer_from_cstr(const char* from);
-Self skl_new_integr(long num);
+Self skl_new_integer(long num);
 Self skl_new_float_from_cstr(const char* from);
 Self skl_new_float(double num);
 long skl_to_integer(Self self);
