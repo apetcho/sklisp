@@ -522,8 +522,7 @@ static void _stream_error(Stream* stream, char* str){
 
 // -*-
 static bool _stream_list_is_empty(Stream* stream){
-    //! @todo
-    return false;
+    return (SKL_CDR(stream->state->head)==sklisp.Nil);
 }
 
 // -*-
