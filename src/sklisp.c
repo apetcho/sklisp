@@ -424,8 +424,7 @@ static void _print_cons(void* obj){
 
 // -*-
 static void* _new_str(void){
-    //! @todo
-    return NULL;
+    return mempool_alloc(sklisp.strpool);
 }
 
 static void _delete_str(void* obj){
