@@ -498,7 +498,13 @@ static void _stream_reset_buf(Stream* stream){
 
 // -*-
 static void _stream_reset(Stream* stream){
-    //! @todo
+    stream->done = 1;
+    while(stream->state != stream->base){
+        skl_delete(_stream_pop(stream));
+    }
+    _stream_reset_buf(stream);
+    stream->readbufp = stream->readbuf;
+    stream->done = 0;
 }
 
 // -*-
