@@ -922,10 +922,10 @@ void sklisp_initialize(void){
     char* prompt;
     // SKLISP_PATH = "${HOME}/.sklisp"
     char* path;                             // -* wisproot -*-
+    */
     skl_init_builtins();
     skl_init_math();
     skl_init();
-    */
 }
 
 /*

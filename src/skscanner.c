@@ -146,6 +146,23 @@ void skl_init(void){
 }// i.e eval_init
 
 // -*-
+static Self _skl_eval_list(Self self){
+    if(self == sklisp.Nil){ return sklisp.Nil; }
+    if(!SKL_IS_CONS(self)){
+        SKL_THROW(sklisp.InvalidListEndError, SKL_INC_RC(self));
+    }
+    Self car = skl_eval(SKL_CAR(self));
+    SKL_CHECK(car);
+    Self cdr = _skl_eval_list(SKL_CDR(self));
+    if(cdr == sklisp.Error){
+        skl_delete(car);
+        return sklisp.Error;
+    }
+
+    return skl_new_cons(car, cdr);
+}
+
+// -*-
 Self skl_eval(Self self){
     return NULL;
 }
