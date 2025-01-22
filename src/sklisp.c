@@ -678,10 +678,18 @@ static u32 _hash_vec(void* obj){
     return result;
 }
 
-/*
-static Trait _vecTrait;
-static Trait _channelTrait;
-*/
+// -*-
+static u32 _hash_channel(void* obj){
+    pid_t pid = SKL_CHANNEL((Self)obj);
+    return skl_hash(&pid, sizeof(pid_t));
+}
+
+// -*-
+static void _print_channel(void* obj){
+    pid_t pid = SKL_CHANNEL((Self)obj);
+    printf("<ChannelID %d>", pid);
+}
+
 
 static Trait _intTrait = {
     .alloc = NULL,
@@ -723,6 +731,13 @@ static Trait _vecTrait = {
     .dealloc = _dealloc_vec,
     .print = _print_vec,
     .hash = _hash_vec,
+};
+
+static Trait _channelTrait = {
+    .alloc = NULL,
+    .dealloc = NULL,
+    .print = _print_channel,
+    .hash = _hash_channel,
 };
 
 // -*----------------------------------------------------------------*-
@@ -776,6 +791,7 @@ void sklisp_initialize(void){
     sklisp.strTrait = &_stringTrait;
     sklisp.symTrait = &_symbolTrait;
     sklisp.vecTrait = &_vecTrait;
+    sklisp.channelTrait = &_channelTrait;
     // -*-
     sklisp.mempool = new_mempool(sizeof(struct object), _object_mempool_discard);
     sklisp.conspool = new_mempool(sizeof(struct cons), _cons_mempool_discard);
