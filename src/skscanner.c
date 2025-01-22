@@ -803,5 +803,6 @@ int stream_load_file(FILE* fp, char* filename, int interactive){
 
 // -*-
 void repl(void){
-    //! @todo
+    sklisp.interactiveMode = 1;
+    stream_load_file(stdin, "<stdin>", sklisp.interactiveMode);
 }
