@@ -320,8 +320,20 @@ bool skl_is_function_form(Self self){
 
 // -*-
 bool skl_is_var_list(Self self){
-    //! @todo
-    return 0;
+    int nrest = -1;
+    while(self != sklisp.Nil){
+        Self car = SKL_CAR(self);
+        if(nrest >= 0){
+            nrest--;
+            if(nrest < 0){ return false; }
+            if(car == sklisp.rest){ return false; }
+        }
+        if(!SKL_IS_SYMBOL(car)){ return false; }
+        if(car == sklisp.rest){ nrest = 1; }
+        self = SKL_CDR(self);
+    }
+    if(nrest == 1){ return false; }
+    return true;
 }
 
 // -*-
