@@ -348,13 +348,15 @@ Self skl_is_proper_list(Self self){
 // -*- String -*-
 // -*----------*-
 // -*-
-Self skl_new_string_with_len(const char* cstr, usize len){
-    //! @todo
+Self skl_new_string_with_len(char* cstr, usize len){
+    Self self = skl_new(STRING);
+    SKL_STRING(self) = cstr;
+    SKL_STRING_LEN(self) = len;
     return NULL;
 }
 
 // -*-
-Self skl_new_string(const char* str){
+Self skl_new_string(char* str){
     //! @todo
     return NULL;
 }

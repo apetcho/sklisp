@@ -406,8 +406,8 @@ struct str {
     char* repr;     // print
     usize len;
 };
-Self skl_new_string_with_len(const char* cstr, usize len);
-Self skl_new_string(const char* str);
+Self skl_new_string_with_len(char* cstr, usize len);
+Self skl_new_string(char* str);
 void skl_string_repr(Self self);
 Self skl_string_cat(Self lhs, Self rhs);
 
