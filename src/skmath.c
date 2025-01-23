@@ -708,13 +708,19 @@ static Self _fn_sinh(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    return skl_new_float(sin(x));
+    return skl_new_float(sinh(x));
 }
 
 // -*-
 static Self _fn_cosh(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute hyperbolic cosine");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("hyperbolic-cosine"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(cosh(x));
 }
 
 // -*-
