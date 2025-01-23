@@ -27,8 +27,14 @@ static Self _fn_docstr(Self self){
 
 // -*-
 static Self _fn_apply(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Apply function to a list");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("apply"));
+    Self fn = SKL_CAR(self);
+    Self argv = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_LIST(argv)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(argv));
+    }
+    return skl_apply(fn, argv);
 }
 
 // -*-
