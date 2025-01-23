@@ -528,8 +528,15 @@ static Self _fn_log10(Self self){
 
 // -*-
 static Self _fn_log2(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute base-2 logarithm");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("(log2 x)"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
+    return skl_new_integer(log2(x));
 }
 
 // -*-
