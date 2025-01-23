@@ -447,7 +447,7 @@ static Self _fn_numberp(Self self){
 
 // -*-
 static Self _fn_stringp(Self self){
-    SKL_DOC("Return t if object is a number.");
+    SKL_DOC("Return t if object is a string.");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("string?"));
     if(SKL_IS_STRING(SKL_CAR(self))){ return sklisp.True; }
     return sklisp.Nil;
@@ -455,8 +455,10 @@ static Self _fn_stringp(Self self){
 
 // -*-
 static Self _fn_integerp(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if object is a integer.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("integer?"));
+    if(SKL_IS_INTEGER(SKL_CAR(self))){ return sklisp.True; }
+    return sklisp.Nil;
 }
 
 // -*-
