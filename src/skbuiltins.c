@@ -74,8 +74,12 @@ static Self _fn_special_or(Self self){
 
 // -*-
 static Self _fn_cons(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Construct a new cons cell, given car and cdr.");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("cons"));
+    return skl_new_cons(
+        SKL_INC_RC(SKL_CAR(self)),
+        SKL_INC_RC(SKL_CAR(SKL_CDR(self)))
+    );
 }
 
 // -*-
