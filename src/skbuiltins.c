@@ -496,8 +496,20 @@ static Self _fn_load(Self self){
 
 // -*-
 static Self _fn_parse(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Parse a string into a sexp or list object.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("parse"));
+    Self obj = SKL_CAR(self);
+    if(!SKL_IS_STRING(obj)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(obj));
+    }
+    char* str = SKL_STRING(obj);
+    Stream* stream = new_stream(NULL, str, "parse", 0);
+    Self sexp = stream_read_sexp(stream);
+    delete_stream(stream);
+    if(sexp == sklisp.Error){
+        SKL_THROW(skl_new_symbol("parse-error"), SKL_INC_RC(obj));
+    }
+    return sexp;
 }
 
 // -*-
