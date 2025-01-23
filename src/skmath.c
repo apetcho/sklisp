@@ -428,7 +428,7 @@ static Self _fn_min(Self self){
 
 // -*-
 static Self _fn_isnan(Self self){
-    SKL_DOC("Check whether the argument is NaN");
+    SKL_DOC("Check whether a number is NaN");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("isnan"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -440,7 +440,7 @@ static Self _fn_isnan(Self self){
 
 // -*-
 static Self _fn_isinf(Self self){
-    SKL_DOC("Check whether the argument is Infinity");
+    SKL_DOC("Check whether a number is Infinity");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("isinf"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -452,8 +452,14 @@ static Self _fn_isinf(Self self){
 
 // -*-
 static Self _fn_isfinite(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Check whether a number is finite");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("isnan"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_integer((long)isfinite(x));
 }
 
 // -*-
