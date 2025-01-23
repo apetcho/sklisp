@@ -305,18 +305,71 @@ static Self _fn_abs(Self self){
     if(!SKL_IS_NUMBER(arg)){
         SKL_THROW(sklisp.TypeError, arg);
     }
+    Self result = NULL;
     if(SKL_IS_INTEGER(arg)){
         long x = skl_to_integer(arg);
-        return skl_new_integer((x < 0 ? -x : x));
+        result = skl_new_integer((x < 0 ? -x : x));
+        // SKL_INC_RC(result);
+        return result;
     }
     double x = skl_to_float(arg);
-    return skl_new_float((x < 0 ? -x : x));
+    result = skl_new_float((x < 0 ? -x : x));
+    // SKL_INC_RC(result);
+    return result;
 }
 
 // -*-
 static Self _fn_max(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return the minimum value of two or more numbers");
+    SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol("max"));
+    Self arg = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(arg)){
+        SKL_THROW(sklisp.TypeError, arg);
+    }
+    struct Num{
+        bool iflag;
+        union{
+            long inum;
+            double fnum;
+        };
+    }val = {.iflag=true, .inum=0};
+    if(SKL_IS_INTEGER(arg)){
+        val.inum = skl_to_integer(arg);
+        val.iflag = true;
+    }else{
+        val.fnum = skl_to_float(arg);
+        val.iflag = false;
+    }
+    self = SKL_CDR(self);
+    while(self != sklisp.Nil){
+        arg = SKL_CAR(self);
+        if(!SKL_IS_NUMBER(arg)){
+            SKL_THROW(sklisp.TypeError, arg);
+        }
+        if(SKL_IS_NUMBER(arg)){
+            long x = skl_to_integer(arg);
+            if(val.iflag){
+                val.inum = (val.inum < x) ? x : val.inum;
+                val.iflag = true;
+            }else{
+                val.iflag = false;
+                val.fnum = (val.fnum < x) ? (double)x : val.fnum;
+            }
+        }else{
+            double x = skl_to_float(arg);
+            val.iflag = false;
+            val.fnum = (val.fnum < x) ? x : val.fnum;
+        }
+        self = SKL_CDR(self);
+    }
+    Self result = NULL;
+    if(val.iflag){
+        result = skl_new_integer(val.inum);
+    }else{
+        result = skl_new_float(val.fnum);
+    }
+    // SKL_INC_RC(result);
+    return result;
 }
 
 // -*-
