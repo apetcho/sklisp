@@ -773,8 +773,14 @@ static Self _fn_atanh(Self self){
 
 // -*-
 static Self _fn_erf(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute error function");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("error-function"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(erf(x));
 }
 
 // -*-
