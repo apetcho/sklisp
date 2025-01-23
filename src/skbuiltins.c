@@ -402,13 +402,17 @@ static Self _fn_str_len(Self self){
 }
 
 // -*-
-static Self _fn_nullp(Self self){
-    //! @todo
-    return NULL;
+static Self _fn_callablep(Self self){
+    SKL_DOC("Return t if object is a callable (i.e a function, lambda, or macro)");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("callable?"));
+    if(SKL_IS_CALLABLE(SKL_CAR(self))){
+        return sklisp.True;
+    }
+    return sklisp.Nil;
 }
 
 // -*-
-static Self _fn_callablep(Self self){
+static Self _fn_nullp(Self self){
     //! @todo
     return NULL;
 }
