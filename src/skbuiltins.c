@@ -5,8 +5,24 @@
 
 // -*-
 static Self _fn_docstr(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return doc-string for builtin functions or special forms.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("doc-str"));
+    Self fun = SKL_CAR(self);
+    bool evald = false;
+    if(SKL_IS_SYMBOL(fun)){
+        evald = true;
+        fun = skl_eval(fun);
+    }
+    if(fun->kind != BUILTIN && fun->kind == SPECIAL){
+        if(evald){ skl_delete(fun); }
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(fun));
+    }
+    Fun fn = SKL_VALUE_FUN(fun);
+    Self doc = fn(sklisp.docstr);
+    if(evald){
+        skl_delete(fun);
+    }
+    return doc;
 }
 
 // -*-
