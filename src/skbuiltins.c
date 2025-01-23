@@ -413,8 +413,12 @@ static Self _fn_callablep(Self self){
 
 // -*-
 static Self _fn_nullp(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if object is nil.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("null?"));
+    if(SKL_CAR(self)==sklisp.Nil){
+        return sklisp.True;
+    }
+    return sklisp.Nil;
 }
 
 // -*-
