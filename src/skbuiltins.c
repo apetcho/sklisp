@@ -312,6 +312,8 @@ static Self _fn_eql(Self self){
     case SPECIAL:
         if(SKL_VALUE_FUN(lhs)==SKL_VALUE_FUN(rhs)){ return sklisp.True; }
         break;
+    default:
+        break;
     }
     return sklisp.Nil;
 }
@@ -325,14 +327,18 @@ static Self _fn_hash(Self self){
 
 // -*-
 static Self _fn_print(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Print an object or sexp in parse-able form.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("print"));
+    skl_print(SKL_CAR(self));
+    return sklisp.Nil;
 }
 
 // -*-
 static Self _fn_println(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Print object or sexp in parse-able form. Print a newline after.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("println"));
+    skl_println(SKL_CAR(self));
+    return sklisp.Nil;
 }
 
 // -*-
