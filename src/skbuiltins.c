@@ -392,8 +392,13 @@ static Self _fn_str_concat(Self self){
 
 // -*-
 static Self _fn_str_len(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return the len of a given string");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("string-len"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_STRING(self)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(self));
+    }
+    return skl_new_integer(SKL_STRING_LEN(self));
 }
 
 // -*-
