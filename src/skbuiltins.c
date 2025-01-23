@@ -152,8 +152,14 @@ static Self _fn_list(Self self){
 
 // -*-
 static Self _fn_special_if(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("");
+    SKL_EXPECT_MIN_LEN(self, 2, sklisp.InvalidArgNumberError);
+    Self cond = skl_eval(SKL_CAR(self));
+    if(cond != sklisp.Nil){
+        skl_delete(cond);
+        return skl_eval(SKL_CAR(SKL_CDR(self)));
+    }
+    return skl_eval_body(SKL_CDR(SKL_CDR(self)));
 }
 
 // -*-
