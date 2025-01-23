@@ -736,8 +736,20 @@ static Self _fn_list_len(Self self){
 
 // -*-
 static Self _fn_len(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return the length of string, list, or vector.");
+    SKL_EXPECT_MAX_LEN(self, 1, skl_new_symbol("len"));
+    Self arg = SKL_CAR(self);
+    bool test = (
+        SKL_IS_LIST(arg) || SKL_IS_STRING(arg) || SKL_IS_VECTOR(arg)
+    );
+    if(!test){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(arg));
+    }
+    long len = 0;
+    if(SKL_IS_STRING(arg)){ len = SKL_STRING_LEN(arg); }
+    else if(SKL_IS_LIST(arg)){ len = skl_to_integer(_fn_list_len(arg)); }
+    else { len = SKL_VECTOR_LEN(arg); }
+    return skl_new_integer(len);
 }
 
 // -*-
