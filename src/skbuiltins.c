@@ -39,8 +39,20 @@ static Self _fn_apply(Self self){
 
 // -*-
 static Self _fn_special_and(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Evaluate each argument until one return nil.");
+    Self result = sklisp.True;
+    Self ptr = self;
+    while(SKL_IS_CONS(ptr)){
+        skl_delete(result);
+        result = skl_eval(SKL_CAR(ptr));
+        SKL_CHECK(result);
+        if(result == sklisp.Nil){ return sklisp.Nil; }
+        ptr = SKL_CDR(ptr);
+    }
+    if(ptr != sklisp.Nil){
+        SKL_THROW(sklisp.InvalidListError, SKL_INC_RC(self));
+    }
+    return SKL_INC_RC(result);
 }
 
 // -*-
