@@ -196,8 +196,8 @@ static Self _fn_special_cond(Self self){
 
 // -*-
 static Self _fn_special_progn(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Eval each argument and return the eval of the last");
+    return skl_eval_body(self);
 }
 
 // -*-
