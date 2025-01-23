@@ -471,7 +471,7 @@ static Self _fn_exp(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    return skl_new_integer(exp(x));
+    return skl_new_float(exp(x));
 }
 
 // -*-
@@ -483,7 +483,7 @@ static Self _fn_exp2(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    return skl_new_integer(exp2(x));
+    return skl_new_float(exp2(x));
 }
 
 // -*-
@@ -495,7 +495,7 @@ static Self _fn_expm1(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    return skl_new_integer(expm1(x));
+    return skl_new_float(expm1(x));
 }
 
 // -*-
@@ -510,7 +510,7 @@ static Self _fn_log(Self self){
     if(x <= 0){
         SKL_THROW(sklisp.ValueError, self);
     }
-    return skl_new_integer(log(x));
+    return skl_new_float(log(x));
 }
 
 // -*-
@@ -523,7 +523,7 @@ static Self _fn_log10(Self self){
     }
     double x = skl_to_float(self);
     if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
-    return skl_new_integer(log10(x));
+    return skl_new_float(log10(x));
 }
 
 // -*-
@@ -536,7 +536,7 @@ static Self _fn_log2(Self self){
     }
     double x = skl_to_float(self);
     if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
-    return skl_new_integer(log2(x));
+    return skl_new_float(log2(x));
 }
 
 // -*-
@@ -549,7 +549,7 @@ static Self _fn_log1p(Self self){
     }
     double x = skl_to_float(self);
     if(x <= -1){ SKL_THROW(sklisp.ValueError, self); }
-    return skl_new_integer(log1p(x));
+    return skl_new_float(log1p(x));
 }
 
 // -*-
@@ -566,7 +566,7 @@ static Self _fn_pow(Self self){
     }
     double x = skl_to_float(lhs);
     double y = skl_to_float(rhs);
-    return skl_new_integer(pow(x, y));
+    return skl_new_float(pow(x, y));
 }
 
 // -*-
@@ -579,7 +579,7 @@ static Self _fn_sqrt(Self self){
     }
     double x = skl_to_float(self);
     if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
-    return skl_new_integer(sqrt(x));
+    return skl_new_float(sqrt(x));
 }
 
 // -*-
@@ -592,7 +592,7 @@ static Self _fn_cbrt(Self self){
     }
     double x = skl_to_float(self);
     if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
-    return skl_new_integer(cbrt(x));
+    return skl_new_float(cbrt(x));
 }
 
 // -*-
@@ -609,13 +609,19 @@ static Self _fn_hypot(Self self){
     }
     double x = skl_to_float(lhs);
     double y = skl_to_float(rhs);
-    return skl_new_integer(hypot(x, y));
+    return skl_new_float(hypot(x, y));
 }
 
 // -*-
 static Self _fn_sin(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute sine of a given number");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("sine"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(sin(x));
 }
 
 // -*-
