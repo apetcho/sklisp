@@ -463,8 +463,10 @@ static Self _fn_integerp(Self self){
 
 // -*-
 static Self _fn_floatp(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if object is a floating-point number.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("float?"));
+    if(SKL_IS_FLOAT(SKL_CAR(self))){ return sklisp.True; }
+    return sklisp.Nil;
 }
 
 // -*-
