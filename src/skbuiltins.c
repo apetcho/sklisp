@@ -122,8 +122,15 @@ static Self _fn_special_defmacro(Self self){
 
 // -*-
 static Self _fn_cdr(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return cdr element of cons cell.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("cdr"));
+    if(SKL_CAR(self)==sklisp.Nil){
+        return sklisp.Nil;
+    }
+    if(!SKL_IS_LIST(SKL_CAR(self))){
+        SKL_THROW(sklisp.TypeError, SKL_CAR(self));
+    }
+    return SKL_INC_RC(SKL_CDR(SKL_CAR(self)));
 }
 
 // -*-
