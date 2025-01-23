@@ -479,8 +479,19 @@ static Self _fn_vectorp(Self self){
 
 // -*-
 static Self _fn_load(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Evaluate contents of a file.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("load"));
+    Self fname = SKL_CAR(self);
+    if(!SKL_IS_STRING(fname)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(fname));
+    }
+    char* filename = SKL_STRING(fname);
+    int rc = stream_load_file(NULL, filename, 0);
+    if(!rc){
+        SKL_THROW(skl_new_symbol("load-file-error"), SKL_INC_RC(fname));
+    }
+
+    return sklisp.True;
 }
 
 // -*-
