@@ -367,8 +367,12 @@ static Self _fn_value(Self self){
 
 // -*-
 static Self _fn_symbol_name(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return symbol name as string.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("symbol-name"));
+    if(!SKL_IS_SYMBOL(SKL_CAR(self))){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(SKL_CAR(self)));
+    }
+    return skl_new_string(skl_strdup(SKL_SYMBOL(SKL_CAR(self))));
 }
 
 // -*-
