@@ -650,8 +650,14 @@ static Self _fn_tan(Self self){
 
 // -*-
 static Self _fn_asin(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute arc sine of a given number");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("arc-sine"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(asin(x));
 }
 
 // -*-
