@@ -471,8 +471,10 @@ static Self _fn_floatp(Self self){
 
 // -*-
 static Self _fn_vectorp(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if object is a vector.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("vector?"));
+    if(SKL_IS_VECTOR(SKL_CAR(self))){ return sklisp.True; }
+    return sklisp.Nil;
 }
 
 // -*-
