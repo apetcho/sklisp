@@ -548,14 +548,25 @@ static Self _fn_log1p(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
+    if(x <= -1){ SKL_THROW(sklisp.ValueError, self); }
     return skl_new_integer(log1p(x));
 }
 
 // -*-
 static Self _fn_pow(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute a number raised to the given power");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("(x^y)"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_NUMBER(lhs)){
+        SKL_THROW(sklisp.TypeError, lhs);
+    }
+    if(!SKL_IS_NUMBER(rhs)){
+        SKL_THROW(sklisp.TypeError, rhs);
+    }
+    double x = skl_to_float(lhs);
+    double y = skl_to_float(rhs);
+    return skl_new_integer(pow(x, y));
 }
 
 // -*-
