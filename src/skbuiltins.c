@@ -661,8 +661,19 @@ static Self _fn_eval_depth(Self self){
 
 // -*-
 static Self _fn_max_eval_depth(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return or set the maximum evaluation depth.");
+    SKL_EXPECT_MAX_LEN(self, 1, skl_new_symbol("max-eval-depth"));
+    if(self==sklisp.Nil){
+        return skl_new_integer(sklisp.maxStackDepth);
+    }
+    Self arg = SKL_CAR(self);
+    if(!SKL_IS_INTEGER(arg)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(arg));
+    }
+    long depth = skl_to_integer(arg);
+    if(depth < 10){ return sklisp.Nil; }
+    sklisp.maxStackDepth = depth;
+    return SKL_INC_RC(arg);
 }
 
 // -*-
