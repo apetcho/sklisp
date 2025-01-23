@@ -720,7 +720,7 @@ static Self _fn_quit(Self self){
 // -*-
 static Self _fn_list_len(Self self){
     SKL_DOC("Return the length of a list.");
-    SKL_EXPECT_MAX_LEN(self, 1, skl_new_symbol("list-len"));
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("list-len"));
     Self xs = SKL_CAR(self);
     if(!SKL_IS_CONS(xs)){
         SKL_THROW(sklisp.TypeError, SKL_INC_RC(xs));
@@ -737,7 +737,7 @@ static Self _fn_list_len(Self self){
 // -*-
 static Self _fn_len(Self self){
     SKL_DOC("Return the length of string, list, or vector.");
-    SKL_EXPECT_MAX_LEN(self, 1, skl_new_symbol("len"));
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("len"));
     Self arg = SKL_CAR(self);
     bool test = (
         SKL_IS_LIST(arg) || SKL_IS_STRING(arg) || SKL_IS_VECTOR(arg)
@@ -754,8 +754,43 @@ static Self _fn_len(Self self){
 
 // -*-
 static Self _fn_typeof(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return the type of arg.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("typeof"));
+    Self arg = SKL_CAR(self);
+    if(arg==sklisp.Nil){
+        return skl_new_uninterned_symbol("nil");
+    }
+    Self result = NULL;
+    switch(arg->kind){
+    case INTEGER:
+        result = skl_new_uninterned_symbol("integer");
+        break;
+    case FLOAT:
+        result = skl_new_uninterned_symbol("float");
+        break;
+    case STRING:
+        result = skl_new_uninterned_symbol("string");
+        break;
+    case SYMBOL:
+        result = skl_new_uninterned_symbol("symbol");
+        break;
+    case BUILTIN:
+        result = skl_new_uninterned_symbol("builtin-function");
+        break;
+    case SPECIAL:
+        result = skl_new_uninterned_symbol("special-form");
+        break;
+    case CONS:
+        result = skl_new_uninterned_symbol("list");
+        break;
+    case CHANNEL:
+        result = skl_new_uninterned_symbol("channel");
+        break;
+    case VEC:
+        result = skl_new_uninterned_symbol("vector");
+        break;
+    }
+    return result;
 }
 
 // -*-
