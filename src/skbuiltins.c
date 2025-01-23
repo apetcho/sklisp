@@ -609,8 +609,40 @@ static Self _fn_vec_concat(Self self){
 
 // -*-
 static Self _fn_vec_slice(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return a subsection of a vector.");
+    SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol("slice"));
+    Self vec = SKL_CAR(self);
+    Self beg = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_VECTOR(vec)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(vec));
+    }
+    if(!SKL_IS_INTEGER(beg)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(beg));
+    }
+    long start = skl_to_integer(beg);
+    if(start >= (long)SKL_VECTOR_LEN(vec)){
+        SKL_THROW(sklisp.IndexError, SKL_INC_RC(beg));
+    }
+    if(start < 0){
+        SKL_THROW(sklisp.IndexError, SKL_INC_RC(beg));
+    }
+    if(SKL_CDR(SKL_CDR(self))==sklisp.Nil){
+        // to the end.
+        return skl_vec_slice(vec, start, -1);
+    }
+
+    Self end = SKL_CAR(SKL_CDR(SKL_CDR(self)));
+    if(!SKL_IS_INTEGER(end)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(end));
+    }
+    long last = skl_to_integer(end);
+    if(last >= (long)SKL_VECTOR_LEN(vec)){
+        SKL_THROW(sklisp.IndexError, SKL_INC_RC(end));
+    }
+    if(last < start){
+        SKL_THROW(sklisp.IndexError, SKL_INC_RC(end));
+    }
+    return skl_vec_slice(vec, start, last);
 }
 
 // -*-
