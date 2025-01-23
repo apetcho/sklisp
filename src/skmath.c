@@ -275,8 +275,26 @@ static Self _fn_num_ge(Self self){
 
 // -*-
 static Self _fn_mod(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return modulo of arguments");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("%"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_NUMBER(lhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(lhs));
+    }
+    if(!SKL_IS_NUMBER(rhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(lhs));
+    }
+    if(SKL_IS_FLOAT(lhs) || SKL_IS_FLOAT(rhs)){
+        double x = skl_to_float(lhs);
+        double y = skl_to_float(rhs);
+        x = fmod(x, y);
+        return skl_new_float(x);
+    }
+    long x = skl_to_integer(lhs);
+    long y = skl_to_integer(rhs);
+    Self result = skl_new_integer((x % y));
+    return result;
 }
 
 // -*-
