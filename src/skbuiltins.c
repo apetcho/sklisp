@@ -135,8 +135,13 @@ static Self _fn_cdr(Self self){
 
 // -*-
 static Self _fn_car(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return car element of cons cell.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("car"));
+    if(SKL_CAR(self) == sklisp.Nil){ return sklisp.Nil; }
+    if(!SKL_IS_LIST(SKL_CAR(self))){
+        SKL_THROW(sklisp.TypeError, SKL_CAR(self));
+    }
+    return SKL_INC_RC(SKL_CAR(SKL_CAR(self)));
 }
 
 // -*-
