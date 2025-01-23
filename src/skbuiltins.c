@@ -423,8 +423,10 @@ static Self _fn_nullp(Self self){
 
 // -*-
 static Self _fn_listp(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if object is a list");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("list?"));
+    if(SKL_IS_LIST(SKL_CAR(self))){ return sklisp.True; }
+    return sklisp.Nil;
 }
 
 // -*-

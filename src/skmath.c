@@ -436,10 +436,10 @@ static Self _fn_isnan(Self self){
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("is-nan"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
-        SKL_THROW(sklisp.TypeError, self);
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(self));
     }
     double x = skl_to_float(self);
-    return skl_new_integer((long)isnan(x));
+    return isnan(x) ? sklisp.True : sklisp.Nil;
 }
 
 // -*-
@@ -451,7 +451,7 @@ static Self _fn_isinf(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    return skl_new_integer((long)isinf(x));
+    return isinf(x) ? sklisp.True : sklisp.Nil;
 }
 
 // -*-
@@ -463,7 +463,7 @@ static Self _fn_isfinite(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    return skl_new_integer((long)isfinite(x));
+    return isfinite(x) ? sklisp.True : sklisp.Nil;
 }
 
 // -*-
