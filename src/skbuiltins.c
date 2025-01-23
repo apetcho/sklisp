@@ -100,8 +100,13 @@ static Self _fn_special_lambda(Self self){
 
 // -*-
 static Self _fn_special_defun(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Define a new function");
+    if(!SKL_IS_SYMBOL(SKL_CAR(self)) || !skl_is_function_form(SKL_CDR(self))){
+        SKL_THROW(skl_new_symbol("invalid-function-form"), SKL_INC_RC(SKL_CDR(self)));
+    }
+    Self fn = skl_new_cons(sklisp.lambda, SKL_INC_RC(SKL_CDR(self)));
+    SKL_SYMBOL_UPDATE(SKL_CAR(self), fn);
+    return SKL_INC_RC(SKL_CAR(self));
 }
 
 // -*-
