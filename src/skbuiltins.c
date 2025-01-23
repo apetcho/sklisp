@@ -654,8 +654,9 @@ static Self _fn_refcount(Self self){
 
 // -*-
 static Self _fn_eval_depth(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Rerurn the current evaluation depth.");
+    SKL_EXPECT_LEN(self, 0, skl_new_symbol("eval-depth"));
+    return skl_new_integer(sklisp.stackDepth);
 }
 
 // -*-
