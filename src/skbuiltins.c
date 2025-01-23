@@ -202,8 +202,54 @@ static Self _fn_special_progn(Self self){
 
 // -*-
 static Self _fn_special_let(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Create a variable bindings in a new scope, and eval body in that scope.");
+
+    // verify structure
+    if(!SKL_IS_LIST(SKL_CAR(self))){
+        SKL_THROW(skl_new_symbol("invalid-let-form"), SKL_INC_RC(self));
+    }
+
+    Self vars = SKL_CAR(self);
+    while(vars != sklisp.Nil){
+        Self entry = SKL_CAR(vars);
+        if(!SKL_IS_LIST(entry)){
+            SKL_THROW(skl_new_symbol("invalid-let-form"), SKL_INC_RC(self));
+        }
+        if(!SKL_IS_SYMBOL(SKL_CAR(entry))){
+            SKL_THROW(skl_new_symbol("invalid-let-form"), SKL_INC_RC(self));
+        }
+        vars = SKL_CDR(vars);
+    }
+    Self ptr = NULL;
+    ptr = vars = SKL_CAR(self);
+    int len = 0;
+    while(ptr != sklisp.Nil){
+        Self pair = SKL_CAR(ptr);
+        Self val = skl_eval(SKL_CAR(SKL_CDR(pair)));
+        if(val == sklisp.Error){
+            // undo scoping
+            ptr = vars;
+            while(len){
+                skl_symtab_pop(SKL_CAR(SKL_CAR(ptr)));
+                ptr = SKL_CDR(ptr);
+                len--;
+            }
+            return sklisp.Error;
+        }
+        skl_symtab_push(SKL_CAR(pair), val);
+        skl_delete(val);
+        ptr = SKL_CDR(ptr);
+        len++;
+    }
+
+    Self result = skl_eval_body(SKL_CDR(self));
+    ptr = vars;
+    while(ptr != sklisp.Nil){
+        Self pair = SKL_CAR(ptr);
+        skl_symtab_pop(SKL_CAR(pair));
+        ptr = SKL_CDR(ptr);
+    }
+    return result;
 }
 
 // -*-
