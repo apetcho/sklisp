@@ -785,8 +785,14 @@ static Self _fn_erf(Self self){
 
 // -*-
 static Self _fn_erfc(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute complementary error function");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("complementary-error-function"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(erfc(x));
 }
 
 // -*-
