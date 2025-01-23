@@ -540,8 +540,18 @@ static Self _fn_catch(Self self){
 
 // -*-
 static Self _fn_vec_set(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Set slot in a vector to object.");
+    SKL_EXPECT_LEN(self, 3, skl_new_symbol("vector-set"));
+    Self vec = SKL_CAR(self);
+    Self idx = SKL_CAR(SKL_CDR(self));
+    Self val = SKL_CAR(SKL_CDR(SKL_CDR(self)));
+    if(!SKL_IS_VECTOR(vec)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(vec));
+    }
+    if(!SKL_IS_INTEGER(idx)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(idx));
+    }
+    return skl_vec_safe_set(vec, idx, val);
 }
 
 // -*-
