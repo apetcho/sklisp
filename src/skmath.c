@@ -429,7 +429,7 @@ static Self _fn_min(Self self){
 // -*-
 static Self _fn_isnan(Self self){
     SKL_DOC("Check whether a number is NaN");
-    SKL_EXPECT_LEN(self, 1, skl_new_symbol("isnan"));
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("is-nan"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
         SKL_THROW(sklisp.TypeError, self);
@@ -441,7 +441,7 @@ static Self _fn_isnan(Self self){
 // -*-
 static Self _fn_isinf(Self self){
     SKL_DOC("Check whether a number is Infinity");
-    SKL_EXPECT_LEN(self, 1, skl_new_symbol("isinf"));
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("is-inf"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
         SKL_THROW(sklisp.TypeError, self);
@@ -453,7 +453,7 @@ static Self _fn_isinf(Self self){
 // -*-
 static Self _fn_isfinite(Self self){
     SKL_DOC("Check whether a number is finite");
-    SKL_EXPECT_LEN(self, 1, skl_new_symbol("isnan"));
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("is-finite"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
         SKL_THROW(sklisp.TypeError, self);
@@ -464,8 +464,14 @@ static Self _fn_isfinite(Self self){
 
 // -*-
 static Self _fn_exp(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute exp of x");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("exp-fn"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_integer(exp(x));
 }
 
 // -*-
