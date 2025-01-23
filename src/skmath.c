@@ -299,7 +299,7 @@ static Self _fn_mod(Self self){
 
 // -*-
 static Self _fn_abs(Self self){
-    SKL_DOC("Return the absolute value of argument");
+    SKL_DOC("Returns the absolute value of argument");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("abs"));
     Self arg = SKL_CAR(self);
     if(!SKL_IS_NUMBER(arg)){
@@ -320,7 +320,7 @@ static Self _fn_abs(Self self){
 
 // -*-
 static Self _fn_max(Self self){
-    SKL_DOC("Return the maximum value of two or more numbers");
+    SKL_DOC("Returns the maximum value of two or more numbers");
     SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol("max"));
     Self arg = SKL_CAR(self);
     if(!SKL_IS_NUMBER(arg)){
@@ -374,7 +374,7 @@ static Self _fn_max(Self self){
 
 // -*-
 static Self _fn_min(Self self){
-    SKL_DOC("Return the minimum value of two or more numbers");
+    SKL_DOC("Returns the minimum value of two or more numbers");
     SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol("min"));
     Self arg = SKL_CAR(self);
     if(!SKL_IS_NUMBER(arg)){
@@ -428,7 +428,7 @@ static Self _fn_min(Self self){
 
 // -*-
 static Self _fn_isnan(Self self){
-    SKL_DOC("Check whether a number is NaN");
+    SKL_DOC("Checks whether a number is NaN");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("is-nan"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -440,7 +440,7 @@ static Self _fn_isnan(Self self){
 
 // -*-
 static Self _fn_isinf(Self self){
-    SKL_DOC("Check whether a number is Infinity");
+    SKL_DOC("Checks whether a number is Infinity");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("is-inf"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -452,7 +452,7 @@ static Self _fn_isinf(Self self){
 
 // -*-
 static Self _fn_isfinite(Self self){
-    SKL_DOC("Check whether a number is finite");
+    SKL_DOC("Checks whether a number is finite");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("is-finite"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -464,7 +464,7 @@ static Self _fn_isfinite(Self self){
 
 // -*-
 static Self _fn_exp(Self self){
-    SKL_DOC("Compute e^x");
+    SKL_DOC("Computes e^x");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("e^x"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -476,7 +476,7 @@ static Self _fn_exp(Self self){
 
 // -*-
 static Self _fn_exp2(Self self){
-    SKL_DOC("Compute 2^x");
+    SKL_DOC("Computes 2^x");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("2^x"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -488,7 +488,7 @@ static Self _fn_exp2(Self self){
 
 // -*-
 static Self _fn_expm1(Self self){
-    SKL_DOC("Compute e^x - 1");
+    SKL_DOC("Computes e^x - 1");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("e^x - 1"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -500,7 +500,7 @@ static Self _fn_expm1(Self self){
 
 // -*-
 static Self _fn_log(Self self){
-    SKL_DOC("Compute natural (base-e) logarithm (ln x)");
+    SKL_DOC("Computes natural (base-e) logarithm (ln x)");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("(ln x)"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -515,7 +515,7 @@ static Self _fn_log(Self self){
 
 // -*-
 static Self _fn_log10(Self self){
-    SKL_DOC("Compute common (base-10) logarithm");
+    SKL_DOC("Computes common (base-10) logarithm");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("(log10 x)"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -528,7 +528,7 @@ static Self _fn_log10(Self self){
 
 // -*-
 static Self _fn_log2(Self self){
-    SKL_DOC("Compute base-2 logarithm");
+    SKL_DOC("Computes base-2 logarithm");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("(log2 x)"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -541,7 +541,7 @@ static Self _fn_log2(Self self){
 
 // -*-
 static Self _fn_log1p(Self self){
-    SKL_DOC("Compute natural (base-e) logarithm of 1 plus given number");
+    SKL_DOC("Computes natural (base-e) logarithm of 1 plus given number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("ln(1+x)"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -554,7 +554,7 @@ static Self _fn_log1p(Self self){
 
 // -*-
 static Self _fn_pow(Self self){
-    SKL_DOC("Compute a number raised to the given power");
+    SKL_DOC("Computes a number raised to the given power");
     SKL_EXPECT_LEN(self, 2, skl_new_symbol("(x^y)"));
     Self lhs = SKL_CAR(self);
     Self rhs = SKL_CAR(SKL_CDR(self));
@@ -571,7 +571,7 @@ static Self _fn_pow(Self self){
 
 // -*-
 static Self _fn_sqrt(Self self){
-    SKL_DOC("Compute square root of a number");
+    SKL_DOC("Computes square root of a number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("square-root"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -584,7 +584,7 @@ static Self _fn_sqrt(Self self){
 
 // -*-
 static Self _fn_cbrt(Self self){
-    SKL_DOC("Compute cube root");
+    SKL_DOC("Computes cube root");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("(cube-root)"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -597,7 +597,7 @@ static Self _fn_cbrt(Self self){
 
 // -*-
 static Self _fn_hypot(Self self){
-    SKL_DOC("Compute square root of the sum of the squares of two given numbers");
+    SKL_DOC("Computes square root of the sum of the squares of two given numbers");
     SKL_EXPECT_LEN(self, 2, skl_new_symbol("(sqrt(x^2 + y^2))"));
     Self lhs = SKL_CAR(self);
     Self rhs = SKL_CAR(SKL_CDR(self));
@@ -614,7 +614,7 @@ static Self _fn_hypot(Self self){
 
 // -*-
 static Self _fn_sin(Self self){
-    SKL_DOC("Compute sine of a given number");
+    SKL_DOC("Computes sine of a given number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("sine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -626,7 +626,7 @@ static Self _fn_sin(Self self){
 
 // -*-
 static Self _fn_cos(Self self){
-    SKL_DOC("Compute cosine of a given number");
+    SKL_DOC("Computes cosine of a given number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("cosine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -638,7 +638,7 @@ static Self _fn_cos(Self self){
 
 // -*-
 static Self _fn_tan(Self self){
-    SKL_DOC("Compute tangent of a given number");
+    SKL_DOC("Computes tangent of a given number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("tangent"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -650,7 +650,7 @@ static Self _fn_tan(Self self){
 
 // -*-
 static Self _fn_asin(Self self){
-    SKL_DOC("Compute arc sine of a given number");
+    SKL_DOC("Computes arc sine of a given number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("arc-sine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -662,7 +662,7 @@ static Self _fn_asin(Self self){
 
 // -*-
 static Self _fn_acos(Self self){
-    SKL_DOC("Compute arc cosine of a given number");
+    SKL_DOC("Computes arc cosine of a given number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("arc-cosine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -674,7 +674,7 @@ static Self _fn_acos(Self self){
 
 // -*-
 static Self _fn_atan(Self self){
-    SKL_DOC("Compute arc tangent of a given number");
+    SKL_DOC("Computes arc tangent of a given number");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("arc-tangent"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -686,7 +686,7 @@ static Self _fn_atan(Self self){
 
 // -*-
 static Self _fn_atan2(Self self){
-    SKL_DOC("Compute arc tangent, using signs to determine quadrants");
+    SKL_DOC("Computes arc tangent, using signs to determine quadrants");
     SKL_EXPECT_LEN(self, 2, skl_new_symbol("arc-tangent2"));
     Self lhs = SKL_CAR(self);
     Self rhs = SKL_CAR(SKL_CDR(self));
@@ -701,7 +701,7 @@ static Self _fn_atan2(Self self){
 
 // -*-
 static Self _fn_sinh(Self self){
-    SKL_DOC("Compute hyperbolic sine");
+    SKL_DOC("Computes hyperbolic sine");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("hyperbolic-sine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -713,7 +713,7 @@ static Self _fn_sinh(Self self){
 
 // -*-
 static Self _fn_cosh(Self self){
-    SKL_DOC("Compute hyperbolic cosine");
+    SKL_DOC("Computes hyperbolic cosine");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("hyperbolic-cosine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -725,7 +725,7 @@ static Self _fn_cosh(Self self){
 
 // -*-
 static Self _fn_tanh(Self self){
-    SKL_DOC("Compute hyperbolic tangent");
+    SKL_DOC("Computes hyperbolic tangent");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("hyperbolic-tangent"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -737,7 +737,7 @@ static Self _fn_tanh(Self self){
 
 // -*-
 static Self _fn_asinh(Self self){
-    SKL_DOC("Compute inverse hyperbolic sine");
+    SKL_DOC("Computes inverse hyperbolic sine");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("inverse-hyperbolic-sine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -749,7 +749,7 @@ static Self _fn_asinh(Self self){
 
 // -*-
 static Self _fn_acosh(Self self){
-    SKL_DOC("Compute inverse hyperbolic cosine");
+    SKL_DOC("Computes inverse hyperbolic cosine");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("inverse-hyperbolic-cosine"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -761,7 +761,7 @@ static Self _fn_acosh(Self self){
 
 // -*-
 static Self _fn_atanh(Self self){
-    SKL_DOC("Compute inverse hyperbolic tangent");
+    SKL_DOC("Computes inverse hyperbolic tangent");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("inverse-hyperbolic-tangent"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -773,7 +773,7 @@ static Self _fn_atanh(Self self){
 
 // -*-
 static Self _fn_erf(Self self){
-    SKL_DOC("Compute error function");
+    SKL_DOC("Computes error function");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("error-function"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -785,7 +785,7 @@ static Self _fn_erf(Self self){
 
 // -*-
 static Self _fn_erfc(Self self){
-    SKL_DOC("Compute complementary error function");
+    SKL_DOC("Computes complementary error function");
     SKL_EXPECT_LEN(self, 1, skl_new_symbol("complementary-error-function"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
@@ -797,8 +797,14 @@ static Self _fn_erfc(Self self){
 
 // -*-
 static Self _fn_tgamma(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Computes gamma function");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("gamma-function"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(tgamma(x));
 }
 
 // -*-
