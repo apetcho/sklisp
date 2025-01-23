@@ -857,8 +857,14 @@ static Self _fn_trunc(Self self){
 
 // -*-
 static Self _fn_round(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Rounds to nearest integer, rounding away fromzero in halfway case");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("*round*"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_integer(round(x));
 }
 
 // -*-
