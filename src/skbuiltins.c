@@ -678,8 +678,16 @@ static Self _fn_max_eval_depth(Self self){
 
 // -*-
 static Self _fn_exit(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Halt the interpreter and return given integer.");
+    SKL_EXPECT_MAX_LEN(self, 1, skl_new_symbol("exit"));
+    if(self == sklisp.Nil){
+        exit(EXIT_SUCCESS);
+    }
+    if(!SKL_IS_INTEGER(SKL_CAR(self))){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(SKL_CAR(self)));
+    }
+    exit(skl_to_integer(SKL_CAR(self)));
+    return NULL; // never reached
 }
 
 // -*-
