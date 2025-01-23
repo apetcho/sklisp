@@ -69,6 +69,7 @@ static Self _fn_special_or(Self self){
     if(ptr != sklisp.Nil){
         SKL_THROW(sklisp.InvalidListError, SKL_INC_RC(self));
     }
+    SKL_UNUSED(result);
     return sklisp.Nil;
 }
 
@@ -152,7 +153,7 @@ static Self _fn_list(Self self){
 
 // -*-
 static Self _fn_special_if(Self self){
-    SKL_DOC("");
+    SKL_DOC("If conditional special form.");
     SKL_EXPECT_MIN_LEN(self, 2, sklisp.InvalidArgNumberError);
     Self cond = skl_eval(SKL_CAR(self));
     if(cond != sklisp.Nil){
@@ -163,15 +164,34 @@ static Self _fn_special_if(Self self){
 }
 
 // -*-
-static Self _fn_not(Self self){
-    //! @todo
-    return NULL;
-}
-
-// -*-
 static Self _fn_special_cond(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Eval car of each argument until one is true. The eval cdr of that argument.");
+    Self ptr = self;
+    while(ptr != sklisp.Nil){
+        if(!SKL_IS_CONS(ptr)){
+            SKL_THROW(sklisp.InvalidListError, SKL_INC_RC(self));
+        }
+        Self pair = SKL_CAR(ptr);
+        if(!SKL_IS_CONS(pair)){
+            SKL_THROW(sklisp.TypeError, SKL_INC_RC(pair));
+        }
+        if(!SKL_IS_LIST(SKL_CDR(pair))){
+            SKL_THROW(sklisp.InvalidListError, SKL_INC_RC(pair));
+        }
+        if(SKL_CDR(pair)==sklisp.Nil){
+            return SKL_INC_RC(SKL_CAR(pair));
+        }
+        if(SKL_CDR(SKL_CDR(pair)) != sklisp.Nil){
+            SKL_THROW(skl_new_symbol("invalid-form"), SKL_INC_RC(pair));
+        }
+        Self test = skl_eval(SKL_CAR(pair));
+        if(test != sklisp.Nil){
+            skl_delete(test);
+            return skl_eval(SKL_CAR(SKL_CDR(pair)));
+        }
+        ptr = SKL_CDR(ptr);
+    }
+    return sklisp.Nil;
 }
 
 // -*-
@@ -428,7 +448,7 @@ void skl_init_builtins(void){
     SKL_SYMBOL_SET(skl_new_symbol("cdr"), skl_new_fun(_fn_cdr));
     SKL_SYMBOL_SET(skl_new_symbol("list"), skl_new_fun(_fn_list));
     SKL_SYMBOL_SET(skl_new_symbol("if"), skl_new_special(_fn_special_if));
-    SKL_SYMBOL_SET(skl_new_symbol("not"), skl_new_fun(_fn_not));
+    SKL_SYMBOL_SET(skl_new_symbol("not"), skl_new_fun(_fn_nullp));
     SKL_SYMBOL_SET(skl_new_symbol("progn"), skl_new_special(_fn_special_progn));
     SKL_SYMBOL_SET(skl_new_symbol("let"), skl_new_special(_fn_special_let));
     SKL_SYMBOL_SET(skl_new_symbol("while"), skl_new_special(_fn_special_while));
