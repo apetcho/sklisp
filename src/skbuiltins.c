@@ -286,8 +286,34 @@ static Self _fn_eq(Self self){
 
 // -*-
 static Self _fn_eql(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if both arguments are similiar.");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("eql"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(lhs->kind != rhs->kind){ return sklisp.Nil; }
+    switch(lhs->kind){
+    case INTEGER:
+    case FLOAT:
+        return skl_num_equal(self);
+    case SYMBOL:
+    case CONS:
+        if(lhs == rhs){ return sklisp.True; }
+        break;
+    case STRING:
+        if(SKL_STRING_LEN(lhs)==SKL_STRING_LEN(rhs)){
+            if(memcmp(SKL_STRING(lhs), SKL_STRING(rhs), SKL_STRING_LEN(lhs))==0){
+                return sklisp.True;
+            }
+        }
+        break;
+    case VEC:
+        return sklisp.Nil;
+    case BUILTIN:
+    case SPECIAL:
+        if(SKL_VALUE_FUN(lhs)==SKL_VALUE_FUN(rhs)){ return sklisp.True; }
+        break;
+    }
+    return sklisp.Nil;
 }
 
 // -*-
