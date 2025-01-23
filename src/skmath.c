@@ -869,7 +869,6 @@ static Self _fn_round(Self self){
 
 // -*-
 void skl_init_math(void){
-    //! @todo
     SKL_SYMBOL_SET(skl_new_symbol("PI"), skl_new_float(3.141592653589793));
     SKL_SYMBOL_SET(skl_new_symbol("E"), skl_new_float(2.718281828459045));
     SKL_SYMBOL_SET(skl_new_symbol("Int::MIN"), skl_new_integer(LONG_MIN));
