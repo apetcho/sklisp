@@ -638,8 +638,14 @@ static Self _fn_cos(Self self){
 
 // -*-
 static Self _fn_tan(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute tangent of a given number");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("tangent"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(tan(x));
 }
 
 // -*-
