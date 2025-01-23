@@ -686,8 +686,8 @@ static Self _fn_atan(Self self){
 
 // -*-
 static Self _fn_atan2(Self self){
-    SKL_DOC("Compute sine of a given number");
-    SKL_EXPECT_LEN(self, 1, skl_new_symbol("sine"));
+    SKL_DOC("Compute arc tangent, using signs to determine quadrants");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("arc-tangent2"));
     Self lhs = SKL_CAR(self);
     Self rhs = SKL_CAR(SKL_CDR(self));
     if(!SKL_IS_NUMBER(lhs)){
@@ -701,8 +701,14 @@ static Self _fn_atan2(Self self){
 
 // -*-
 static Self _fn_sinh(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute hyperbolic sine");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("hyperbolic-sine"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(sin(x));
 }
 
 // -*-
