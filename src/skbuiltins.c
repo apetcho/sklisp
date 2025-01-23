@@ -594,8 +594,17 @@ static Self _fn_new_vec(Self self){
 
 // -*-
 static Self _fn_vec_concat(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Concatenate two vectors.");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("vector-concat"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_VECTOR(lhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(lhs));
+    }
+    if(!SKL_IS_VECTOR(rhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(rhs));
+    }
+    return skl_vec_concat(lhs, rhs);
 }
 
 // -*-
