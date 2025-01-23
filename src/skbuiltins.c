@@ -521,8 +521,21 @@ static Self _fn_throw(Self self){
 
 // -*-
 static Self _fn_catch(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Catch an exception and return attachement");
+    Self _except = skl_eval(SKL_CAR(self));
+    SKL_CHECK(_except);
+    Self body = SKL_CDR(self);
+    Self result = skl_eval_body(body);
+    if(result == sklisp.Error){
+        if(_except==sklisp.ThrownError){
+            skl_delete(_except);
+            skl_delete(sklisp.ThrownError);
+            return sklisp.AttachError;
+        }else{
+            return sklisp.Error;
+        }
+    }
+    return result;
 }
 
 // -*-
