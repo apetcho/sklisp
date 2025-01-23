@@ -571,8 +571,15 @@ static Self _fn_pow(Self self){
 
 // -*-
 static Self _fn_sqrt(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute square root of a number");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("square-root"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
+    return skl_new_integer(sqrt(x));
 }
 
 // -*-
