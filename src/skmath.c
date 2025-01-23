@@ -249,6 +249,10 @@ static Self _fn_num_eq(Self self){
     return _num_cmp(EQ, self);
 }
 
+Self skl_num_equal(Self self){
+    return _fn_num_eq(self);
+}
+
 // -*-
 static Self _fn_num_lt(Self self){
     SKL_DOC("Compare two numbers by <.");

@@ -499,7 +499,7 @@ Self skl_eval_body(Self self);
 Self skl_bind_args(Self vars, Self argv);           // i.e assign_args
 void skl_unbind_args(Self vars);                    // i.e unassign_args
 Self skl_apply(Self fun, Self argv);
-
+Self skl_num_equal(Self);
 /*
 void sklisp_init(void* app); <sklisp_init()>                     // i.e wisp_init
 :{

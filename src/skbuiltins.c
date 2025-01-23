@@ -1,6 +1,7 @@
 #include "sklisp.h"
-
-static Self _fn_num_eq(Self self);
+#include<string.h>
+#include<errno.h>
+#include<assert.h>
 
 // -*-
 static Self _fn_docstr(Self self){
