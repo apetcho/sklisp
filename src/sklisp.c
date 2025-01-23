@@ -944,6 +944,7 @@ static void _init_symtab(void){
     sklisp.VoidFunError = skl_new_symbol("void-function-error");
     sklisp.InvalidArgNumberError = skl_new_symbol("invalid-arg-number-error");
     sklisp.TypeError = skl_new_symbol("type-error");
+    sklisp.ValueError = skl_new_symbol("value-error");
     sklisp.InvalidListError = skl_new_symbol("invalid-list-error");
     sklisp.InvalidListEndError = skl_new_symbol("invalid-list-ending-error");
     sklisp.InterruptError = skl_new_symbol("interrupt-error");

@@ -582,6 +582,7 @@ struct SKLisp{
     Self VoidFunError;
     Self InvalidArgNumberError;
     Self TypeError;
+    Self ValueError;
     Self InvalidListError;
     Self InvalidListEndError;
     Self InterruptError;

@@ -507,13 +507,23 @@ static Self _fn_log(Self self){
         SKL_THROW(sklisp.TypeError, self);
     }
     double x = skl_to_float(self);
-    return skl_new_integer(expm1(x));
+    if(x <= 0){
+        SKL_THROW(sklisp.ValueError, self);
+    }
+    return skl_new_integer(log(x));
 }
 
 // -*-
 static Self _fn_log10(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute common (base-10) logarithm");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("(log10 x)"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    if(x <= 0){ SKL_THROW(sklisp.ValueError, self); }
+    return skl_new_integer(log10(x));
 }
 
 // -*-
