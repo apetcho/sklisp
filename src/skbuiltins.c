@@ -582,8 +582,14 @@ static Self _fn_vec_len(Self self){
 
 // -*-
 static Self _fn_new_vec(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Create a new vector of given len, initialized to given object.");
+    SKL_EXPECT_MIN_LEN(self, 2, skl_new_symbol("new-vector"));
+    Self len = SKL_CAR(self);
+    Self init = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_INTEGER(len)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(len));
+    }
+    return skl_new_vec(skl_to_integer(len), init);
 }
 
 // -*-
