@@ -488,8 +488,14 @@ static Self _fn_exp2(Self self){
 
 // -*-
 static Self _fn_expm1(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute e^x - 1");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("e^x - 1"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_integer(expm1(x));
 }
 
 // -*-
