@@ -254,8 +254,19 @@ static Self _fn_special_let(Self self){
 
 // -*-
 static Self _fn_special_while(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Continually evaluate body until first argument evals nil.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("while"));
+    Self result = sklisp.Nil;
+    Self cond = SKL_CAR(self);
+    Self body = SKL_CDR(self);
+    Self condVal = NULL;
+    while((condVal = skl_eval(cond)) != sklisp.Nil){
+        skl_delete(result);
+        skl_delete(condVal);
+        SKL_CHECK(condVal);
+        result = skl_eval_body(body);
+    }
+    return result;
 }
 
 // -*-
