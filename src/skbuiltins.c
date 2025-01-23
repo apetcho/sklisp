@@ -318,8 +318,9 @@ static Self _fn_eql(Self self){
 
 // -*-
 static Self _fn_hash(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return integer hash of object.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("hash"));
+    return skl_new_integer(sklisp_hash(SKL_CAR(self)));
 }
 
 // -*-
