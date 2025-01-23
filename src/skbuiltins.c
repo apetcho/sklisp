@@ -859,11 +859,14 @@ void skl_init_builtins(void){
     SKL_SYMBOL_SET(skl_new_symbol("vector-concat"), skl_new_fun(_fn_vec_concat));
     SKL_SYMBOL_SET(skl_new_symbol("vector-slice"), skl_new_fun(_fn_vec_slice));
 
+    // SKL_SYMBOL_SET(skl_new_symbol("concat"), skl_new_fun(_fn_concat));
+
     SKL_SYMBOL_SET(skl_new_symbol("refcount"), skl_new_fun(_fn_refcount));
     SKL_SYMBOL_SET(skl_new_symbol("eval-depth"), skl_new_fun(_fn_eval_depth));
     SKL_SYMBOL_SET(skl_new_symbol("max-eval-depth"), skl_new_fun(_fn_max_eval_depth));
 
     SKL_SYMBOL_SET(skl_new_symbol("exit"), skl_new_fun(_fn_exit));
+    SKL_SYMBOL_SET(skl_new_symbol("quit"), skl_new_fun(_fn_quit));
 
     SKL_SYMBOL_SET(skl_new_symbol("list-len"), skl_new_fun(_fn_list_len));
     SKL_SYMBOL_SET(skl_new_symbol("len"), skl_new_fun(_fn_len));
