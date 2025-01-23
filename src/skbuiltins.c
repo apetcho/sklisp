@@ -343,8 +343,16 @@ static Self _fn_println(Self self){
 
 // -*-
 static Self _fn_set(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Store object in symbol-table.");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("set"));
+    if(!SKL_IS_SYMBOL(SKL_CAR(self))){
+        SKL_THROW(sklisp.TypeError, skl_new_cons(skl_new_symbol("set"), SKL_CAR(self)));
+    }
+    if(SKL_SYMBOL_IS_CONSTANT(SKL_CAR(self))){
+        SKL_THROW(skl_new_symbol("setting-constant"), SKL_CAR(self));
+    }
+    SKL_SYMBOL_UPDATE(SKL_CAR(self), SKL_CAR(SKL_CDR(self)));
+    return SKL_INC_RC(SKL_CAR(SKL_CDR(self)));
 }
 
 // -*-
