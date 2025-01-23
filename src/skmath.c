@@ -464,8 +464,8 @@ static Self _fn_isfinite(Self self){
 
 // -*-
 static Self _fn_exp(Self self){
-    SKL_DOC("Compute exp of x");
-    SKL_EXPECT_LEN(self, 1, skl_new_symbol("exp-fn"));
+    SKL_DOC("Compute e^x");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("e^x"));
     self = SKL_CAR(self);
     if(!SKL_IS_NUMBER(self)){
         SKL_THROW(sklisp.TypeError, self);
@@ -476,8 +476,14 @@ static Self _fn_exp(Self self){
 
 // -*-
 static Self _fn_exp2(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute 2^x");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("2^x"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_integer(exp2(x));
 }
 
 // -*-
