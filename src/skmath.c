@@ -686,8 +686,17 @@ static Self _fn_atan(Self self){
 
 // -*-
 static Self _fn_atan2(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute sine of a given number");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("sine"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_NUMBER(lhs)){
+        SKL_THROW(sklisp.TypeError, lhs);
+    }
+    if(!SKL_IS_NUMBER(rhs)){ SKL_THROW(sklisp.TypeError, rhs); }
+    double x = skl_to_float(lhs);
+    double y = skl_to_float(rhs);
+    return skl_new_float(atan2(x, y));
 }
 
 // -*-
