@@ -737,8 +737,14 @@ static Self _fn_tanh(Self self){
 
 // -*-
 static Self _fn_asinh(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute inverse hyperbolic sine");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("inverse-hyperbolic-sine"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_float(asinh(x));
 }
 
 // -*-
