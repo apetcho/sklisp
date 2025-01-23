@@ -57,8 +57,19 @@ static Self _fn_special_and(Self self){
 
 // -*-
 static Self _fn_special_or(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Evalue each argument until one argument doesn't return nil.");
+    Self result = sklisp.Nil;
+    Self ptr = self;
+    while(SKL_IS_CONS(ptr)){
+        result = skl_eval(SKL_CAR(ptr));
+        SKL_CHECK(result);
+        if(result != sklisp.Nil){ return SKL_INC_RC(result); }
+        ptr = SKL_CDR(ptr);
+    }
+    if(ptr != sklisp.Nil){
+        SKL_THROW(sklisp.InvalidListError, SKL_INC_RC(self));
+    }
+    return sklisp.Nil;
 }
 
 // -*-
