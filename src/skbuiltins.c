@@ -687,13 +687,51 @@ static Self _fn_exit(Self self){
         SKL_THROW(sklisp.TypeError, SKL_INC_RC(SKL_CAR(self)));
     }
     exit(skl_to_integer(SKL_CAR(self)));
-    return NULL; // never reached
+    return sklisp.Nil; // never reached
+}
+
+// -*-
+// static Self _fn_concat(Self self){
+//     SKL_DOC("Concatenate two strings, two lists, or two vector.");
+//     SKL_EXPECT_LEN(self, 2, self);
+//     Self lhs = SKL_CAR(self);
+//     Self rhs = SKL_CAR(SKL_CDR(self));
+//     if(lhs->kind != rhs->kind){
+//         SKL_THROW(sklisp.TypeError, SKL_INC_RC(lhs));
+//     }
+//     if(SKL_IS_STRING(lhs)){
+//         return _fn_str_concat(self);
+//     }else if(SKL_IS_VECTOR(lhs)){
+//         return _fn_vec_concat(self);
+//     }else if(SKL_IS_LIST(lhs)){
+
+//     }
+//     return NULL;
+// }
+
+// -*-
+static Self _fn_quit(Self self){
+    SKL_DOC("Halt the interpreter.");
+    SKL_EXPECT_MAX_LEN(self, 0, skl_new_symbol("quit"));
+    exit(EXIT_SUCCESS);
+    return sklisp.Nil; // never reached
 }
 
 // -*-
 static Self _fn_list_len(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return the length of a list.");
+    SKL_EXPECT_MAX_LEN(self, 1, skl_new_symbol("list-len"));
+    Self xs = SKL_CAR(self);
+    if(!SKL_IS_CONS(xs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(xs));
+    }
+    Self ptr = xs;
+    long len = 0;
+    while(ptr != sklisp.Nil){
+        len++;
+        ptr = SKL_CDR(ptr);
+    }
+    return skl_new_integer(len);
 }
 
 // -*-
