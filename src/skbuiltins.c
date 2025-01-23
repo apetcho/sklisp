@@ -271,14 +271,17 @@ static Self _fn_special_while(Self self){
 
 // -*-
 static Self _fn_eval(Self self){
-    //! @todo
-    return NULL;
+    return skl_eval_body(self);
 }
 
 // -*-
 static Self _fn_eq(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if both arguments are the same lisp object.");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("eq"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(lhs == rhs){ return sklisp.True; }
+    return sklisp.Nil;
 }
 
 // -*-
