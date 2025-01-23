@@ -556,8 +556,17 @@ static Self _fn_vec_set(Self self){
 
 // -*-
 static Self _fn_vec_get(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Get object stored in vector slot.");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("vector-get"));
+    Self vec = SKL_CAR(self);
+    Self idx = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_VECTOR(vec)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(vec));
+    }
+    if(!SKL_IS_INTEGER(idx)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(idx));
+    }
+    return skl_vec_safe_get(vec, idx);
 }
 
 // -*-
