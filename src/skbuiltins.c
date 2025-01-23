@@ -84,8 +84,9 @@ static Self _fn_cons(Self self){
 
 // -*-
 static Self _fn_special_quote(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return argument unevaluated.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("quote"));
+    return SKL_INC_RC(SKL_CAR(self));
 }
 
 // -*-
