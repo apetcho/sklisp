@@ -377,8 +377,17 @@ static Self _fn_symbol_name(Self self){
 
 // -*-
 static Self _fn_str_concat(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Concatenate two strings.");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("string-concat"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_STRING(lhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(lhs));
+    }
+    if(!SKL_IS_STRING(rhs)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(rhs));
+    }
+    return skl_string_cat(lhs, rhs);
 }
 
 // -*-
