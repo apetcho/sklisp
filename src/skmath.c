@@ -299,8 +299,18 @@ static Self _fn_mod(Self self){
 
 // -*-
 static Self _fn_abs(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return the absolute value of argument");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("abs"));
+    Self arg = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(arg)){
+        SKL_THROW(sklisp.TypeError, arg);
+    }
+    if(SKL_IS_INTEGER(arg)){
+        long x = skl_to_integer(arg);
+        return skl_new_integer((x < 0 ? -x : x));
+    }
+    double x = skl_to_float(arg);
+    return skl_new_float((x < 0 ? -x : x));
 }
 
 // -*-
