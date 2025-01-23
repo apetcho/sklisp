@@ -571,8 +571,13 @@ static Self _fn_vec_get(Self self){
 
 // -*-
 static Self _fn_vec_len(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return the length of the vector");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("vector-len"));
+    Self vec = SKL_CAR(self);
+    if(!SKL_IS_VECTOR(vec)){
+        SKL_THROW(sklisp.TypeError, SKL_INC_RC(vec));
+    }
+    return skl_new_integer(SKL_VECTOR_LEN(vec));
 }
 
 // -*-
