@@ -146,8 +146,8 @@ static Self _fn_car(Self self){
 
 // -*-
 static Self _fn_list(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return arguments as a list.");
+    return SKL_INC_RC(self);
 }
 
 // -*-
