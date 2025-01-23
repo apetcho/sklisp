@@ -833,8 +833,14 @@ static Self _fn_ceil(Self self){
 
 // -*-
 static Self _fn_floor(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute largest integer not greater than the given value");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("*floor*"));
+    self = SKL_CAR(self);
+    if(!SKL_IS_NUMBER(self)){
+        SKL_THROW(sklisp.TypeError, self);
+    }
+    double x = skl_to_float(self);
+    return skl_new_integer(floor(x));
 }
 
 // -*-
