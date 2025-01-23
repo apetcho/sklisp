@@ -343,7 +343,7 @@ static Self _fn_println(Self self){
 
 // -*-
 static Self _fn_set(Self self){
-    SKL_DOC("Store object in symbol-table.");
+    SKL_DOC("Store object in symbol.");
     SKL_EXPECT_LEN(self, 2, skl_new_symbol("set"));
     if(!SKL_IS_SYMBOL(SKL_CAR(self))){
         SKL_THROW(sklisp.TypeError, skl_new_cons(skl_new_symbol("set"), SKL_CAR(self)));
@@ -357,8 +357,12 @@ static Self _fn_set(Self self){
 
 // -*-
 static Self _fn_value(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Get value store in symbol");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("value"));
+    if(!SKL_IS_SYMBOL(SKL_CAR(self))){
+        SKL_THROW(sklisp.TypeError, skl_new_cons(skl_new_symbol("value"), SKL_CAR(self)));
+    }
+    return SKL_INC_RC(SKL_SYMBOL_GET(SKL_CAR(self)));
 }
 
 // -*-
