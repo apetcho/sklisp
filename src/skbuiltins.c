@@ -439,8 +439,10 @@ static Self _fn_symbolp(Self self){
 
 // -*-
 static Self _fn_numberp(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return t if object is a number.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("number?"));
+    if(SKL_IS_NUMBER(SKL_CAR(self))){ return sklisp.True; }
+    return sklisp.Nil;
 }
 
 // -*-
