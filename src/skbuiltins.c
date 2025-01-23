@@ -514,7 +514,8 @@ static Self _fn_parse(Self self){
 
 // -*-
 static Self _fn_throw(Self self){
-    //! @todo
+    SKL_DOC("Throw an object, and attachment, as an exception.");
+    SKL_THROW(SKL_INC_RC(SKL_CAR(self)), SKL_INC_RC(SKL_CAR(SKL_CDR(self))));
     return NULL;
 }
 
