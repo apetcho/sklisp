@@ -597,8 +597,19 @@ static Self _fn_cbrt(Self self){
 
 // -*-
 static Self _fn_hypot(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Compute square root of the sum of the squares of two given numbers");
+    SKL_EXPECT_LEN(self, 2, skl_new_symbol("(sqrt(x^2 + y^2))"));
+    Self lhs = SKL_CAR(self);
+    Self rhs = SKL_CAR(SKL_CDR(self));
+    if(!SKL_IS_NUMBER(lhs)){
+        SKL_THROW(sklisp.TypeError, lhs);
+    }
+    if(!SKL_IS_NUMBER(rhs)){
+        SKL_THROW(sklisp.TypeError, rhs);
+    }
+    double x = skl_to_float(lhs);
+    double y = skl_to_float(rhs);
+    return skl_new_integer(hypot(x, y));
 }
 
 // -*-
