@@ -647,8 +647,9 @@ static Self _fn_vec_slice(Self self){
 
 // -*-
 static Self _fn_refcount(Self self){
-    //! @todo
-    return NULL;
+    SKL_DOC("Return number of reference counts to objects.");
+    SKL_EXPECT_LEN(self, 1, skl_new_symbol("refcount"));
+    return skl_new_integer(SKL_CAR(self)->rc);
 }
 
 // -*-
